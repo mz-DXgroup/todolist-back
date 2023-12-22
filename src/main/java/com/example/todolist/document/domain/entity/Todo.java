@@ -1,5 +1,6 @@
-package com.example.todolist.domain.entity;
+package com.example.todolist.document.domain.entity;
 
+import com.example.todolist.document.domain.dto.Period;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -7,7 +8,7 @@ import jakarta.persistence.Id;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-import java.time.Period;
+
 
 @NoArgsConstructor
 @Getter
@@ -15,7 +16,7 @@ import java.time.Period;
 public class Todo {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    private Integer id;
 
     private String todo;
 
@@ -23,4 +24,9 @@ public class Todo {
 
     private boolean isActive;
 
+    public Todo( String todo, Period period, boolean isActive) {
+        this.todo = todo;
+        this.period = period;
+        this.isActive = isActive;
+    }
 }

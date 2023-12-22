@@ -1,7 +1,14 @@
+
+buildscript {
+	ext {
+		restdocsApiSpecVersion = '0.19.0'
+	}
+}
 plugins {
 	id 'java'
 	id 'org.springframework.boot' version '3.2.0'
 	id 'io.spring.dependency-management' version '1.1.4'
+	id 'com.epages.restdocs-api-spec' version "$restdocsApiSpecVersion"
 }
 
 group = 'com.example'
@@ -31,7 +38,34 @@ dependencies {
 	runtimeOnly 'com.h2database:h2'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'com.epages:restdocs-api-spec-mockmvc:0.15.3'
 //	testImplementation 'org.springframework.security:spring-security-test'
+}
+
+
+
+
+repositories {
+	mavenCentral()
+}
+
+
+openapi3 {
+	servers = [
+			{ server ->
+				server.url = "http://localhost:8090"
+				server.description = "로컬 서버"
+			}
+	]
+	title = "My API"
+	description = "My API description"
+	version = "0.1.0"
+	format = "yaml" // or json
+}
+tasks.register('generateOasToSwagger', Copy) {
+	dependsOn("openapi3")
+	from("$buildDir/api-spec/openapi3.yaml")
+	into("src/main/resources/static/swagger")
 }
 
 tasks.named('test') {
