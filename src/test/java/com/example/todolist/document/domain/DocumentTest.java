@@ -48,7 +48,7 @@ class DocumentTest {
     void getDocumentsTest(){
 
          List<DocumentResponse> dbDocumentResponses= documentRepository.findAll().stream().map(DocumentResponse::from).toList();
-        List<DocumentResponse>  documentResponses=documentService.getDocument();
+        List<DocumentResponse>  documentResponses=documentService.getDocuments();
 
         Assertions.assertEquals(dbDocumentResponses,documentResponses);
     }

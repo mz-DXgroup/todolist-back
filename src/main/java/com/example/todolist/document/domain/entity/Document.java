@@ -45,6 +45,12 @@ public class Document {
             this.id=documentId;
     }
 
+    public void update(Period period,  String title, String description){
+        this.period=period;
+        this.title=title;
+        this.description=description;
+    }
+
     public static Document fromId(Integer documentId){
         return new Document(documentId);
     }

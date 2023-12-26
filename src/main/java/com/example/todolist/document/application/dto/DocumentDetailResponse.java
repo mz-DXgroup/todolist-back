@@ -3,17 +3,20 @@ package com.example.todolist.document.application.dto;
 import com.example.todolist.document.domain.dto.Period;
 import com.example.todolist.document.domain.entity.Document;
 
-public record DocumentResponse(
+public record DocumentDetailResponse(
 
         Period period,
         String title,
-        String description
+        String description,
+        Integer memberId
+
 ) {
-    public static DocumentResponse from(Document entity){
-       return new DocumentResponse(
+    public static DocumentDetailResponse from(Document entity){
+       return new DocumentDetailResponse(
                 entity.getPeriod(),
                 entity.getTitle(),
-                entity.getDescription()
+                entity.getDescription(),
+                entity.getMember().getId()
         );
     }
 
