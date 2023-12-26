@@ -1,10 +1,7 @@
 package com.example.todolist.document.domain.entity;
 
 import com.example.todolist.document.domain.dto.Period;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -20,13 +17,21 @@ public class Todo {
 
     private String todo;
 
+    private  String description;
+
     private Period period;
 
     private boolean isActive;
 
-    public Todo( String todo, Period period, boolean isActive) {
+    @ManyToOne
+    @JoinColumn(name="document_id")
+    private Document document;
+
+    public Todo( String todo, String description,Period period, boolean isActive, Document document) {
         this.todo = todo;
+        this.description=description;
         this.period = period;
         this.isActive = isActive;
+        this.document=document;
     }
 }

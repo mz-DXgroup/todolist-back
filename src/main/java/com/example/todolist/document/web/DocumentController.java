@@ -1,7 +1,7 @@
 package com.example.todolist.document.web;
 
-import com.example.todolist.document.application.TodoRequest;
-import com.example.todolist.document.application.TodoService;
+import com.example.todolist.document.application.DocumentService;
+import com.example.todolist.document.application.dto.DocumentRequest;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,19 +9,18 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.net.URI;
 
-@RequestMapping("/api/document")
+@RequestMapping("/api")
 @RestController
 public class DocumentController {
 
-    private  final  TodoService todoService ;
+    private  final DocumentService documentService ;
 
-    public DocumentController(TodoService todoService) {
-        this.todoService = todoService;
-    }
+    public DocumentController(DocumentService documentService) {this.documentService = documentService;}
 
-    @PostMapping("/todo")
-    public ResponseEntity<Void> createTodo (TodoRequest todoRequest){
-        Integer id = todoService.createTodo(todoRequest);
-        return ResponseEntity.created(URI.create("/document/todo/"+ id )).build();
+
+    @PostMapping("/document")
+    public ResponseEntity<Void> createDocument (DocumentRequest documentRequest){
+        Integer id = documentService.createDocument(documentRequest);
+        return ResponseEntity.created(URI.create("api/document"+ id )).build();
     }
 }

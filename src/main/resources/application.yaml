@@ -9,25 +9,31 @@ spring:
 
   datasource:
     driver-class-name: org.h2.Driver
-    hikari:
-      jdbc-url: jdbc:h2:mem:test
-      username: sa
-      password:
+    url: jdbc:h2:./h2db
+    username: sa
+    password:
+
   jpa:
     generate-ddl: 'true'
     hibernate:
       ddl-auto: update
+    database-platform: org.hibernate.dialect.H2Dialect
     properties:
       hibernate:
         show_sql: true
         format_sql: true
         use_sql_comments: true
 
+logging:
+  level:
+    root: info
+
+#
 #springdoc:
 #  api-docs:
 #    enabled: true
 #  swagger-ui:
-#    path: /swagger-ui/index.html
+#    path: /swagger/index.html
 #    groups-order: DESC
 #    doc-expansion: none
 #    tags-sorter: alpha

@@ -1,6 +1,6 @@
-package com.example.todolist.document.domain.repository;
+package com.example.todolist.common.member.domain.repository;
 
-import com.example.todolist.document.domain.entity.Member;
+import com.example.todolist.common.member.domain.entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
