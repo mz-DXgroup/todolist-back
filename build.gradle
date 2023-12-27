@@ -39,6 +39,8 @@ dependencies {
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'com.epages:restdocs-api-spec-mockmvc:0.15.3'
+
+	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-yaml'
 //	testImplementation 'org.springframework.security:spring-security-test'
 }
 
