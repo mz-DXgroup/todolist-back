@@ -2,7 +2,7 @@ package com.example.todolist.document.web;
 
 import com.example.todolist.document.application.TodoService;
 import com.example.todolist.document.application.dto.TodoRequest;
-import com.example.todolist.document.domain.dto.Period;
+import com.example.todolist.document.domain.entity.Period;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

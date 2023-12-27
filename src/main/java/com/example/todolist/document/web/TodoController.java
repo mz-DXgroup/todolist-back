@@ -21,24 +21,23 @@ public class TodoController {
         this.todoService = todoService;
     }
 
-    @PostMapping("/todo")
+    @PostMapping( "/todo" )
     public ResponseEntity<Void> createTodo(TodoRequest todoRequest) {
         Integer id = todoService.createTodo(todoRequest);
         return ResponseEntity.created(URI.create("api/todo" + id)).build();
     }
 
-    @GetMapping("/todo")
-    public ResponseEntity<List<TodoResponse>> getTodos() {
-        return ResponseEntity.ok(todoService.getTodos());
-    }
+    @GetMapping( "/todo" )
+    public ResponseEntity<List<TodoResponse>> getTodos() { return ResponseEntity.ok(todoService.getTodos()); }
 
-    @GetMapping("/todo/{todoId}")
+    @GetMapping( "/todo/{todoId}" )
     public ResponseEntity<TodoDetailResponse> getTodo(@PathVariable Integer todoId) {
         return ResponseEntity.ok(todoService.getTodo(todoId));
     }
 
-    @PutMapping("/todo")
+    @PutMapping( "/todo" )
     public  ResponseEntity<Void> updateTodo(@PathVariable Integer todoId, TodoUpdateRequest todoUpdateReqeust){
-        return ResponseEntity.ok().build(); //todo 아직 안함 ㅋ
+            todoService.updateTodo(todoId,todoUpdateReqeust);
+        return ResponseEntity.ok().build();
     }
 }

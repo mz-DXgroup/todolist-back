@@ -34,8 +34,8 @@ public class DocumentService {
         return DocumentDetailResponse.from(documentRepository.findById(id).orElseThrow(()->new IllegalArgumentException(id+"찾을수 없습니다."))) ;
     }
 
-    public void  updateDocument(Integer documentId,DocumentUpdateRequest documentUpdateRequest){
+    public void  updateDocument(Integer documentId,DocumentUpdateRequest request){
             Document document= documentRepository.findById(documentId).orElseThrow(()->new IllegalArgumentException("없음"));
-            document.update(documentUpdateRequest.period(),documentUpdateRequest.title(),documentUpdateRequest.description());
+            document.update(request.period(),request.title(),request.description());
     }
 }

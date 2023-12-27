@@ -3,7 +3,7 @@ package com.example.todolist.document.domain;
 import com.example.todolist.document.application.DocumentService;
 import com.example.todolist.document.application.dto.DocumentRequest;
 import com.example.todolist.document.application.dto.DocumentResponse;
-import com.example.todolist.document.domain.dto.Period;
+import com.example.todolist.document.domain.entity.Period;
 import com.example.todolist.document.domain.entity.Document;
 import com.example.todolist.document.domain.repository.DocumentRepository;
 import jakarta.transaction.Transactional;

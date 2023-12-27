@@ -1,4 +1,4 @@
-package com.example.todolist.document.domain.dto;
+package com.example.todolist.document.domain.entity;
 
 import jakarta.persistence.Embeddable;
 import lombok.Getter;

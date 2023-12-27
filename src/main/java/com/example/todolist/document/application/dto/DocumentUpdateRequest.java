@@ -1,6 +1,6 @@
 package com.example.todolist.document.application.dto;
 
-import com.example.todolist.document.domain.dto.Period;
+import com.example.todolist.document.domain.entity.Period;
 
 public record DocumentUpdateRequest(
 

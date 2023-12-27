@@ -1,8 +1,7 @@
 package com.example.todolist.document.domain.entity;
 
-import com.example.todolist.common.domain.AuditingEntity;
+import com.example.todolist.common.domain.entity.AuditingEntity;
 import com.example.todolist.common.member.domain.entity.Member;
-import com.example.todolist.document.domain.dto.Period;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,6 +25,8 @@ public class Document  extends AuditingEntity {
     private String title;
 
     private String description;
+
+    private DayStatus dayStatus;
 
     @Setter
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "document")

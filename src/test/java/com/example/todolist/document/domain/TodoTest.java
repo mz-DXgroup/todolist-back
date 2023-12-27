@@ -1,7 +1,7 @@
 package com.example.todolist.document.domain;
 
 import com.example.todolist.document.application.dto.TodoRequest;
-import com.example.todolist.document.domain.dto.Period;
+import com.example.todolist.document.domain.entity.Period;
 import com.example.todolist.document.domain.entity.Todo;
 import com.example.todolist.document.domain.repository.TodoRepository;
 import jakarta.transaction.Transactional;
