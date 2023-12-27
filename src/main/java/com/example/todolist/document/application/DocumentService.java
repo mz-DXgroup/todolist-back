@@ -16,9 +16,7 @@ import java.util.List;
 public class DocumentService {
 
     private  final DocumentRepository documentRepository;
-
     public DocumentService(DocumentRepository documentRepository) {this.documentRepository = documentRepository;}
-
 
     public Integer createDocument(DocumentRequest documentRequest){
         Document document = documentRequest.toEntity();
