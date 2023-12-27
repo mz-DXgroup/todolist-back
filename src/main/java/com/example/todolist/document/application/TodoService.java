@@ -1,5 +1,6 @@
 package com.example.todolist.document.application;
 
+import com.example.todolist.document.application.dto.TodoDetailResponse;
 import com.example.todolist.document.application.dto.TodoRequest;
 import com.example.todolist.document.application.dto.TodoResponse;
 import com.example.todolist.document.domain.entity.Todo;
@@ -28,5 +29,10 @@ public class TodoService {
     public List<TodoResponse> getTodos() {
 
         return todoRepository.findAll().stream().map(TodoResponse::from).toList();
+    }
+
+    public TodoDetailResponse getTodo(Integer id) {
+        return TodoDetailResponse.from(todoRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(id + " 를 찾을 수 업습니다. ")));
+
     }
 }
