@@ -1,5 +1,6 @@
 package com.example.todolist.document.domain.entity;
 
+import com.example.todolist.common.domain.AuditingEntity;
 import com.example.todolist.document.domain.dto.Period;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -10,7 +11,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @Getter
 @Entity
-public class Todo {
+public class Todo extends AuditingEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;

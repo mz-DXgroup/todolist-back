@@ -1,5 +1,6 @@
 package com.example.todolist.document.domain.entity;
 
+import com.example.todolist.common.domain.AuditingEntity;
 import com.example.todolist.common.member.domain.entity.Member;
 import com.example.todolist.document.domain.dto.Period;
 import jakarta.persistence.*;
@@ -15,7 +16,7 @@ import java.util.List;
 @Getter
 @ToString
 @Entity
-public class Document {
+public class Document  extends AuditingEntity {
 
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
