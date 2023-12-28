@@ -8,9 +8,9 @@ import com.example.todolist.document.domain.entity.Todo;
 import com.example.todolist.document.domain.repository.TodoRepository;
 import jakarta.transaction.Transactional;
 import lombok.val;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
 
 @Transactional
 @Service
@@ -28,8 +28,8 @@ public class TodoService {
         return todo.getId();
     }
 
-    public List<TodoResponse> getTodos() {
-        return todoRepository.findAll().stream().map(TodoResponse::from).toList();
+    public Page<TodoResponse> getTodos(Pageable pageable) {
+        return todoRepository.findAll(pageable).map(TodoResponse::from);
     }
 
     public TodoDetailResponse getTodo(Integer id) {
