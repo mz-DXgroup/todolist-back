@@ -6,6 +6,7 @@ import com.example.todolist.document.application.dto.DocumentResponse;
 import com.example.todolist.document.domain.entity.Period;
 import com.example.todolist.document.domain.entity.Document;
 import com.example.todolist.document.domain.repository.DocumentRepository;
+import com.example.todolist.document.domain.status.DayStatus;
 import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -29,7 +30,7 @@ class DocumentTest {
     DocumentService documentService;
 
     public  static  final  Period 시간 = new Period(LocalDateTime.now(),LocalDateTime.now().plusHours(1)) ;
-    public  static  final  DocumentRequest 도큐멘트_요청 = new DocumentRequest(시간,"1월 10일 할 일","할거 없음 ㅋ", 1);
+    public  static  final  DocumentRequest 도큐멘트_요청 = new DocumentRequest(시간,"1월 10일 할 일","할거 없음 ㅋ", 1, DayStatus.VERYGOOD);
 
     @DisplayName("문서 생성이 잘 된다")
     @Transactional

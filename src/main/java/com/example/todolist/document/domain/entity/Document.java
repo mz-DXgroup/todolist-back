@@ -3,6 +3,7 @@ package com.example.todolist.document.domain.entity;
 import com.example.todolist.common.domain.entity.AuditingEntity;
 import com.example.todolist.common.member.domain.entity.Member;
 import com.example.todolist.document.domain.status.DayStatus;
+import com.example.todolist.document.domain.status.convertor.DayStatusConvertor;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,7 +29,7 @@ public class Document extends AuditingEntity {
 
     private String description;
 
-    @Convert(converter = DayStatus.class)
+    @Convert(converter = DayStatusConvertor.class)
     private DayStatus dayStatus;
 
     @Setter
