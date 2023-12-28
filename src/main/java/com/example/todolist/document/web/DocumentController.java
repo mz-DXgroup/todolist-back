@@ -5,11 +5,14 @@ import com.example.todolist.document.application.dto.DocumentDetailResponse;
 import com.example.todolist.document.application.dto.DocumentRequest;
 import com.example.todolist.document.application.dto.DocumentResponse;
 import com.example.todolist.document.application.dto.DocumentUpdateRequest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
-import java.util.List;
 
 @RequestMapping("/api")
 @RestController
@@ -27,8 +30,8 @@ public class DocumentController {
     }
 
     @GetMapping("/documents")
-    public ResponseEntity<List<DocumentResponse>> getDocuments(){
-            return ResponseEntity.ok(documentService.getDocuments());
+    public ResponseEntity<Page<DocumentResponse>> getDocuments( @PageableDefault(size = 20,sort = "id",direction = Sort.Direction.ASC) Pageable pageable){
+            return ResponseEntity.ok(documentService.getDocuments(pageable));
     }
 
     @GetMapping("/documents/{documentId}")

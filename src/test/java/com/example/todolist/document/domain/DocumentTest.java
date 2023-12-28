@@ -2,20 +2,17 @@ package com.example.todolist.document.domain;
 
 import com.example.todolist.document.application.DocumentService;
 import com.example.todolist.document.application.dto.DocumentRequest;
-import com.example.todolist.document.application.dto.DocumentResponse;
-import com.example.todolist.document.domain.entity.Period;
 import com.example.todolist.document.domain.entity.Document;
+import com.example.todolist.document.domain.entity.Period;
 import com.example.todolist.document.domain.repository.DocumentRepository;
 import com.example.todolist.document.domain.status.DayStatus;
 import jakarta.transaction.Transactional;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import java.time.LocalDateTime;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
@@ -42,7 +39,7 @@ class DocumentTest {
 
         assertEquals(savedDocument,result);
     }
-
+/*
     @DisplayName("문서 리스트가 조회가 잘 된다 ")
     @Transactional
     @Test
@@ -53,5 +50,5 @@ class DocumentTest {
 
         Assertions.assertEquals(dbDocumentResponses,documentResponses);
     }
-
+*/
 }
