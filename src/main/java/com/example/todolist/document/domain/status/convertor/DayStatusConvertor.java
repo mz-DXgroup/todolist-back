@@ -9,9 +9,8 @@ public class DayStatusConvertor extends CodeEnumConvertor<DayStatus> {
         return DayStatus.class ;
     }
 
-
     @Override
     public DayStatus defaultType() {
-        return DayStatus.JUST;
+        return DayStatus.NONE;
     }
 }

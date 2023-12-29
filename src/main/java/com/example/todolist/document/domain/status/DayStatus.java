@@ -9,7 +9,8 @@ public enum DayStatus implements CodeEnum {
     GOOD("GOOD", "만족"),
     JUST("JUST", "그저 그럼"),
     BAD("BAD", "나쁨"),
-    WORST("WORST", "최악");
+    WORST("WORST", "최악"),
+    NONE("NONE","평가 전");
 
     @JsonValue
     private final String code;
