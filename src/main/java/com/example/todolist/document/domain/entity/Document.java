@@ -38,7 +38,7 @@ public class Document extends AuditingEntity {
 
     @ManyToOne
     @JoinColumn(name = "member_id")
-    private Member member = null;
+    private Member member;
 
 
     public Document(Period period, String title, String description, Member member,DayStatus dayStatus) {

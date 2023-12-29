@@ -5,7 +5,7 @@ import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum DayStatus implements CodeEnum {
 
-    VERYGOOD("VERYGOOD", "아주 만족"),
+    VERY_GOOD("VERY GOOD", "아주 만족"),
     GOOD("GOOD", "만족"),
     JUST("JUST", "그저 그럼"),
     BAD("BAD", "나쁨"),
@@ -27,4 +27,5 @@ public enum DayStatus implements CodeEnum {
     public String getDescription() {
         return description;
     }
+
 }
