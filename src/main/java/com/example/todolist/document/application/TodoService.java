@@ -7,7 +7,6 @@ import com.example.todolist.document.application.dto.TodoUpdateRequest;
 import com.example.todolist.document.domain.entity.Todo;
 import com.example.todolist.document.domain.repository.TodoRepository;
 import jakarta.transaction.Transactional;
-import lombok.val;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -33,11 +32,11 @@ public class TodoService {
     }
 
     public TodoDetailResponse getTodo(Integer id) {
-        return TodoDetailResponse.from(todoRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(id + " 를 찾을 수 업습니다. ")));
+        return TodoDetailResponse.from(todoRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(id + " 를 찾을 수 없습니다. ")));
     }
 
     public void updateTodo(Integer id, TodoUpdateRequest request) {
-        val dto = request.toDto();
+        var dto = request.toDto();
         Todo todo = todoRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(id + " 찾을 수 없습니다"));
         todo.update(dto);
     }
