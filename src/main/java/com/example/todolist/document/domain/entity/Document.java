@@ -36,7 +36,7 @@ public class Document extends AuditingEntity {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "document")
     private List<Todo> todos = new ArrayList<>();
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 

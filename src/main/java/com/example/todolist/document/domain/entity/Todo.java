@@ -24,7 +24,7 @@ public class Todo extends AuditingEntity {
 
     private boolean isActive;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "document_id")
     private Document document;
 
