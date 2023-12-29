@@ -22,17 +22,17 @@ public class Todo extends AuditingEntity {
 
     private Period period;
 
-    private boolean isActive;
+    private boolean isChecked;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "document_id")
     private Document document;
 
-    public Todo(String todo, String description, Period period, boolean isActive, Document document) {
+    public Todo(String todo, String description, Period period, boolean isChecked, Document document) {
         this.todo = todo;
         this.description = description;
         this.period = period;
-        this.isActive = isActive;
+        this.isChecked = isChecked;
         this.document = document;
     }
 
@@ -40,7 +40,7 @@ public class Todo extends AuditingEntity {
         this.todo = dto.todo();
         this.description = dto.description();
         this.period = dto.period();
-        this.isActive = dto.isActive();
+        this.isChecked = dto.isActive();
         this.document = Document.fromId(dto.documentId());
     }
 

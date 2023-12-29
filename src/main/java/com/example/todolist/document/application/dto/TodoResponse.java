@@ -12,7 +12,7 @@ public record TodoResponse(
        return new TodoResponse(
                 entity.getTodo(),
                 entity.getPeriod(),
-               entity.isActive()
+               entity.isChecked()
         );
     }
 

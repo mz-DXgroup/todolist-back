@@ -7,10 +7,10 @@ public record TodoRequest(
         String todo,
         String description,
         Period period,
-        Boolean isActive ,  
+        Boolean isChecked,
         Integer documentId
 ) {
     public Todo toEntity( ){
-        return new Todo(todo, description, period, isActive, Document.fromId(documentId));
+        return new Todo(todo, description, period, isChecked, Document.fromId(documentId));
     }
 }

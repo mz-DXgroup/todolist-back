@@ -14,7 +14,7 @@ public record TodoDetailResponse(
                 entity.getTodo(),
                 entity.getDescription(),
                 entity.getPeriod(),
-               entity.isActive()
+               entity.isChecked()
         );
     }
 
