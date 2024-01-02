@@ -7,11 +7,13 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
 import static com.example.todolist.document.domain.entity.QDocument.document;
 
+@Repository
 public class DocumentRepositoryImpl implements DocumentRepositoryCustom {
 
     private final JPAQueryFactory queryFactory;
