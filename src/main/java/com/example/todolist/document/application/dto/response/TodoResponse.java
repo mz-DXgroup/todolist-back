@@ -1,18 +1,16 @@
-package com.example.todolist.document.application.dto;
+package com.example.todolist.document.application.dto.response;
 
 import com.example.todolist.document.domain.entity.Period;
 import com.example.todolist.document.domain.entity.Todo;
 
-public record TodoDetailResponse(
+public record TodoResponse(
         String todo,
-        String description,
         Period period,
-        boolean isActive
+        boolean isChecked
 ) {
-    public static TodoDetailResponse from(Todo entity){
-       return new TodoDetailResponse(
+    public static TodoResponse from(Todo entity){
+       return new TodoResponse(
                 entity.getTodo(),
-                entity.getDescription(),
                 entity.getPeriod(),
                entity.isChecked()
         );

@@ -1,10 +1,10 @@
 package com.example.todolist.document.web;
 
 import com.example.todolist.document.application.DocumentService;
-import com.example.todolist.document.application.dto.DocumentDetailResponse;
-import com.example.todolist.document.application.dto.DocumentRequest;
-import com.example.todolist.document.application.dto.DocumentResponse;
-import com.example.todolist.document.application.dto.DocumentUpdateRequest;
+import com.example.todolist.document.application.dto.response.DocumentDetailResponse;
+import com.example.todolist.document.application.dto.request.DocumentRequest;
+import com.example.todolist.document.application.dto.response.DocumentResponse;
+import com.example.todolist.document.application.dto.request.DocumentUpdateRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;

@@ -1,7 +1,7 @@
 package com.example.todolist.document.domain;
 
 import com.example.todolist.document.application.DocumentService;
-import com.example.todolist.document.application.dto.DocumentRequest;
+import com.example.todolist.document.application.dto.request.DocumentRequest;
 import com.example.todolist.document.domain.entity.Document;
 import com.example.todolist.document.domain.entity.Period;
 import com.example.todolist.document.domain.repository.DocumentRepository;

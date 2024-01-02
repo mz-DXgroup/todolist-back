@@ -1,4 +1,4 @@
-package com.example.todolist.document.application.dto;
+package com.example.todolist.document.application.dto.response;
 
 import com.example.todolist.document.domain.entity.Period;
 import com.example.todolist.document.domain.entity.Document;
