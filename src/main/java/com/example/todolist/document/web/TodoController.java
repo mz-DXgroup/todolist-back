@@ -27,7 +27,7 @@ public class TodoController {
     @PostMapping("/todo")
     public ResponseEntity<Void> createTodo(TodoRequest todoRequest) {
         Integer id = todoService.createTodo(todoRequest);
-        return ResponseEntity.created(URI.create("api/todo" + id)).build();
+        return ResponseEntity.created(URI.create("api/todo/" + id)).build();
     }
 
     @GetMapping("/todo")

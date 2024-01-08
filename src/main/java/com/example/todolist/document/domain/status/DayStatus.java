@@ -1,6 +1,7 @@
 package com.example.todolist.document.domain.status;
 
 import com.example.todolist.common.domain.CodeEnum;
+import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum DayStatus implements CodeEnum {
@@ -19,6 +20,12 @@ public enum DayStatus implements CodeEnum {
     DayStatus(String code, String description) {
         this.code = code;
         this.description = description;
+    }
+
+    @JsonCreator
+    public static DayStatus valueOfCode(String code) {
+        return CodeEnum.of(DayStatus.class, code)
+                .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 코드입니다. - " + code));
     }
     @Override
     public String getCode() {

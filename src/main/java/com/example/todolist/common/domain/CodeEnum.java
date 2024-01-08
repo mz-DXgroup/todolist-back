@@ -12,8 +12,8 @@ public interface CodeEnum {
         return Optional.ofNullable(valueOfCode(enumClass, code));
     }
 
-    static <T extends Enum<? extends CodeEnum>> T valueOfCode(Class<T> enumClass, String code) {
-        for (T value : enumClass.getEnumConstants()) {
+    static private <T extends Enum<? extends CodeEnum>> T valueOfCode(Class<T> type, String code) {
+        for (T value: type.getEnumConstants()) {
             if (((CodeEnum) value).getCode().equalsIgnoreCase(code)) {
                 return value;
             }

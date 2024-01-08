@@ -13,16 +13,20 @@ spring:
     username: sa
     password:
 
+#spring:
+#  datasource:
+#    driver-class-name: com.mysql.cj.jdbc.Driver
+#    url: jdbc:mysql://localhost:3306/sample?serverTimezone=Asia/Seoul
+#    username: root
+#    password: root
+
   jpa:
-    generate-ddl: 'true'
     hibernate:
-      ddl-auto: update
-    database-platform: org.hibernate.dialect.H2Dialect
-    properties:
-      hibernate:
-        show_sql: true
-        format_sql: true
-        use_sql_comments: true
+      ddl-auto: update  # 애플리케이션 실행 시 JPA가 DDL을 자동으로 생성하도록 설정 (개발 중에만 사용)
+    show-sql: true  # Hibernate가 생성하는 SQL을 로그로 출력
+#    properties:
+#      hibernate:
+#        dialect: org.hibernate.dialect.MySQLDialect
 
 logging:
   level:

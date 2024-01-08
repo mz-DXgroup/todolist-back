@@ -29,7 +29,6 @@ public class Todo extends AuditingEntity {
     private Document document;
 
     public Todo(String todo, String description, Period period, boolean isChecked, Document document) {
-        periodValidate(period, document);
         this.todo = todo;
         this.description = description;
         this.period = period;
@@ -39,19 +38,18 @@ public class Todo extends AuditingEntity {
 
     public void update(TodoDto dto) {
         this.document = Document.fromId(dto.documentId());
-        periodValidate(dto.period(),this.document);
         this.todo = dto.todo();
         this.description = dto.description();
         this.period = dto.period();
         this.isChecked = dto.isActive();
     }
-    private void periodValidate(Period period, Document document) {
-        if (document.getPeriod().startDate().isBefore(period.startDate())) {
-            throw new IllegalArgumentException("기간을 확인해 주세요");
-        }
-        if (document.getPeriod().endDate().isBefore(period.endDate())) {
-            throw new IllegalArgumentException("기간을 확인해 주세요");
-        }
-    }
+//    private void periodValidate(Period period, Document document) {
+//        if (document.getPeriod().startDate().isBefore(period.startDate())) {
+//            throw new IllegalArgumentException("기간을 확인해 주세요");
+//        }
+//        if (document.getPeriod().endDate().isBefore(period.endDate())) {
+//            throw new IllegalArgumentException("기간을 확인해 주세요");
+//        }
+//    }
 
 }

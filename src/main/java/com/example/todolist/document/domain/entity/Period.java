@@ -13,11 +13,6 @@ public record Period(
         LocalDateTime endDate
 
 ) {
-    public Period(LocalDateTime startDate, LocalDateTime endDate) {
-        validate(startDate,endDate);
-        this.startDate = startDate;
-        this.endDate = endDate;
-    }
     private static void validate(LocalDateTime startDate, LocalDateTime endDate) {
 
             if (startDate.isAfter(endDate)) {

@@ -26,7 +26,7 @@ public class DocumentController {
     @PostMapping("/documents")
     public ResponseEntity<Void> createDocument (DocumentRequest documentRequest){
         Integer id = documentService.createDocument(documentRequest);
-        return ResponseEntity.created(URI.create("api/document"+ id )).build();
+        return ResponseEntity.created(URI.create("/documents/"+ id )).build();
     }
 
     @GetMapping("/documents")
