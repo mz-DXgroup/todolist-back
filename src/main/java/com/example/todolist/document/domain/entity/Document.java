@@ -1,7 +1,7 @@
 package com.example.todolist.document.domain.entity;
 
 import com.example.todolist.common.domain.entity.AuditingEntity;
-import com.example.todolist.common.member.domain.entity.Member;
+import com.example.todolist.member.domain.entity.Member;
 import com.example.todolist.document.domain.status.DayStatus;
 import jakarta.persistence.*;
 import lombok.Getter;

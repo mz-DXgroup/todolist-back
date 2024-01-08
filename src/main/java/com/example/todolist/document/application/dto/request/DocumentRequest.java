@@ -1,6 +1,6 @@
 package com.example.todolist.document.application.dto.request;
 
-import com.example.todolist.common.member.domain.entity.Member;
+import com.example.todolist.member.domain.entity.Member;
 import com.example.todolist.document.domain.entity.Period;
 import com.example.todolist.document.domain.entity.Document;
 import com.example.todolist.document.domain.status.DayStatus;

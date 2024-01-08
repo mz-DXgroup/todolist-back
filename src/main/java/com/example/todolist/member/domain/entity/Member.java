@@ -1,4 +1,4 @@
-package com.example.todolist.common.member.domain.entity;
+package com.example.todolist.member.domain.entity;
 
 import com.example.todolist.document.domain.entity.Document;
 import jakarta.persistence.*;
