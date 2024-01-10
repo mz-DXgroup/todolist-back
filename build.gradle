@@ -15,7 +15,7 @@ group = 'com.example'
 version = '0.0.1-SNAPSHOT'
 
 java {
-	sourceCompatibility = '21'
+	sourceCompatibility = '17'
 }
 
 configurations {
@@ -97,4 +97,8 @@ tasks.withType(JavaCompile) {
 
 clean.doLast {
 	file(querydslDir).deleteDir()
+}
+
+jar{
+	enabled=false
 }

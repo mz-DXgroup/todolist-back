@@ -16,17 +16,15 @@ spring:
 #spring:
 #  datasource:
 #    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://localhost:3306/sample?serverTimezone=Asia/Seoul
+#    url: jdbc:mysql://localhost:3306/testcontainer?serverTimezone=Asia/Seoul
 #    username: root
-#    password: root
+#    password: 1234
 
   jpa:
     hibernate:
       ddl-auto: update  # 애플리케이션 실행 시 JPA가 DDL을 자동으로 생성하도록 설정 (개발 중에만 사용)
     show-sql: true  # Hibernate가 생성하는 SQL을 로그로 출력
-#    properties:
-#      hibernate:
-#        dialect: org.hibernate.dialect.MySQLDialect
+
 
 logging:
   level:
@@ -44,8 +42,3 @@ logging:
 #    operationsSorter: method
 #    disable-swagger-default-url: true
 #    display-request-duration: true
-
-
-#jwt:
-#  secret:
-#    key: 7ZWt7ZW0OTntmZTsnbTtjIXtlZzqta3snYTrhIjrqLjshLjqs4TroZzrgpjslYTqsIDsnpDtm4zrpa3tlZzqsJzrsJzsnpDrpbzrp4zrk6TslrTqsIDsnpA=
