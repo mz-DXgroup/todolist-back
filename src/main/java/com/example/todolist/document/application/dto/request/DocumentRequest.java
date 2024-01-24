@@ -6,14 +6,11 @@ import com.example.todolist.document.domain.entity.Document;
 import com.example.todolist.document.domain.status.DayStatus;
 
 public record DocumentRequest(
-
         Period period,
         String title,
         String description,
         Integer memberId,
         DayStatus dayStatus
-
-
 ) {
     public Document toEntity( ){
         return  new Document(period,title,description, Member.fromId(memberId),dayStatus);

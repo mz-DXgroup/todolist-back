@@ -11,16 +11,12 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 import static com.example.todolist.document.domain.entity.QDocument.document;
-
 @Repository
 public class DocumentRepositoryImpl implements DocumentRepositoryCustom {
-
     private final JPAQueryFactory queryFactory;
-
     public DocumentRepositoryImpl(JPAQueryFactory queryFactory) {
         this.queryFactory = queryFactory;
     }
-
 
     @Override
     public Page<Document> findAllBy(Pageable pageable) {

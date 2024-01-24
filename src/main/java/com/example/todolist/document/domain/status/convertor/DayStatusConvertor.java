@@ -8,7 +8,6 @@ public class DayStatusConvertor extends CodeEnumConvertor<DayStatus> {
     public Class<DayStatus> supprotClass() {
         return DayStatus.class ;
     }
-
     @Override
     public DayStatus defaultType() {
         return DayStatus.NONE;

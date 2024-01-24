@@ -3,7 +3,6 @@ package com.example.todolist.common.domain;
 import java.util.Optional;
 
 public interface CodeEnum {
-
     String getCode();
 
     String getDescription();
@@ -13,7 +12,7 @@ public interface CodeEnum {
     }
 
     static private <T extends Enum<? extends CodeEnum>> T valueOfCode(Class<T> type, String code) {
-        for (T value: type.getEnumConstants()) {
+        for (T value : type.getEnumConstants()) {
             if (((CodeEnum) value).getCode().equalsIgnoreCase(code)) {
                 return value;
             }

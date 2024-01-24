@@ -23,8 +23,15 @@ spring:
   jpa:
     hibernate:
       ddl-auto: update  # 애플리케이션 실행 시 JPA가 DDL을 자동으로 생성하도록 설정 (개발 중에만 사용)
+      naming:
+        physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true  # Hibernate가 생성하는 SQL을 로그로 출력
 
+
+  mvc:
+    view:
+      prefix: /templates/
+      suffix: .mustache
 
 logging:
   level:
@@ -42,3 +49,10 @@ logging:
 #    operationsSorter: method
 #    disable-swagger-default-url: true
 #    display-request-duration: true
+
+
+
+
+
+
+

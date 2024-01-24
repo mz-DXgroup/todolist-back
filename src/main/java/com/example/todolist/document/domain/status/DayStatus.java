@@ -5,13 +5,12 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonValue;
 
 public enum DayStatus implements CodeEnum {
-
     VERY_GOOD("VERY GOOD", "아주 만족"),
     GOOD("GOOD", "만족"),
     JUST("JUST", "그저 그럼"),
     BAD("BAD", "나쁨"),
     WORST("WORST", "최악"),
-    NONE("NONE","평가 전");
+    NONE("NONE", "평가 전");
 
     @JsonValue
     private final String code;
@@ -27,10 +26,12 @@ public enum DayStatus implements CodeEnum {
         return CodeEnum.of(DayStatus.class, code)
                 .orElseThrow(() -> new IllegalArgumentException("존재하지 않는 코드입니다. - " + code));
     }
+
     @Override
     public String getCode() {
         return code;
     }
+
     @Override
     public String getDescription() {
         return description;

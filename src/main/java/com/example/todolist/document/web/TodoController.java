@@ -17,7 +17,6 @@ import java.net.URI;
 @RequestMapping("/api")
 @RestController
 public class TodoController {
-
     private final TodoService todoService;
 
     public TodoController(TodoService todoService) {

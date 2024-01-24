@@ -39,9 +39,8 @@ public class Document extends AuditingEntity {
     @JoinColumn(name = "member_id")
     private Member member;
 
-
-    public Document(Period period, String title, String description, Member member,DayStatus dayStatus) {
-        this.period =period;
+    public Document(Period period, String title, String description, Member member, DayStatus dayStatus) {
+        this.period = period;
         this.title = title;
         this.description = description;
         this.member = member;
@@ -52,11 +51,11 @@ public class Document extends AuditingEntity {
         this.id = documentId;
     }
 
-    public void update(Period period, String title, String description,DayStatus dayStatus) {
+    public void update(Period period, String title, String description, DayStatus dayStatus) {
         this.period = period;
         this.title = title;
         this.description = description;
-        this.dayStatus=dayStatus;
+        this.dayStatus = dayStatus;
     }
 
     public static Document fromId(Integer documentId) {
