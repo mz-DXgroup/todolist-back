@@ -4,7 +4,6 @@ import com.example.todolist.common.domain.CodeEnum;
 import jakarta.persistence.AttributeConverter;
 
 public abstract class CodeEnumConvertor<T extends Enum<T> & CodeEnum> implements AttributeConverter<T, String> {
-
     @Override
     public String convertToDatabaseColumn(T attribute) {
         if (attribute == null) {
