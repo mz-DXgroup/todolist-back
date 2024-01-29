@@ -1,4 +1,4 @@
-package com.example.todolist.member.application;
+package com.example.todolist.member.application.response;
 
 import java.security.Principal;
 

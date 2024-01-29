@@ -22,6 +22,13 @@ public class Member extends AuditingEntity {
 
     private String email;
 
+    @Column(unique = true)
+    private String userId;
+
+    private String pw;
+
+    private String roles;
+
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "member")
     private List<Document> documents = new ArrayList<>();
 
@@ -31,5 +38,14 @@ public class Member extends AuditingEntity {
 
     public static Member fromId(Integer memberId) {
         return new Member(memberId);
+    }
+
+    public void create(String name, String email, String userId, String pw, String roles, List<Document> documents) {
+        this.name = name;
+        this.email = email;
+        this.userId = userId;
+        this.pw = pw;
+        this.roles = roles;
+        this.documents = documents;
     }
 }
