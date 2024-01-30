@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.example.todolist.common.TriConsumerTest" tests="3" skipped="0" failures="0" errors="0" timestamp="2024-01-25T08:47:39" hostname="P00A83702-002" time="0.018">
+  <properties/>
+  <testcase name="인터페이스를 익명 객체로 구현" classname="com.example.todolist.common.TriConsumerTest" time="0.014"/>
+  <testcase name="인터페이스를 익명 객체로 구현" classname="com.example.todolist.common.TriConsumerTest" time="0.001"/>
+  <testcase name="인터페이스를 익명 객체로 구현" classname="com.example.todolist.common.TriConsumerTest" time="0.001"/>
+  <system-out><![CDATA[인터페이스를 익명 객체로써 구현 :::: 
+int : 2 , String : 3 , Long : 4
+
+인터페이스를 람다식으써 구현 :::: 
+int : 2 , String : 3 , Long : 4
+
+인터페이스를 메소드 레퍼런스로써 구현 :::: 
+int : 2 , String : 3 , Long : 4
+
+]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
