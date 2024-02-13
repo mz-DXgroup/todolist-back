@@ -1,0 +1,102 @@
+<template>
+  <div>
+    <p>HomeView 페이지 입니다.</p>
+    <h2>Document List</h2>
+    <button @click="showPopup" class="btn btn-primary">추가</button>
+    <FormModal v-if="showModal" @close="showModal = false">
+      <template #header>
+        <h3>Document 추가</h3>
+      </template>
+      <template #body>
+        <form action="" @submit.prevent="submitForm">
+          <label for="d-title">제목</label>
+          <input id="d-title" type="text" v-model="dTitle" class="form-control"> <br>
+          <label for="d-description">내용</label>
+          <input id="d-description" type="text" v-model="dDescription" class="form-control">
+          <hr>
+          <label for="startDate">시작일: </label>
+          <input id="startDate" type="date" v-model="period.startDate"> <br>
+          <label for="endDate">종료일: </label>
+          <input id="endDate" type="date" v-model="period.endDate"> <hr> <br>
+          <button type="submit" class="btn btn-primary">추가</button>
+          <button @click="showPopup" class="btn btn-danger">취소</button>
+        </form>
+      </template>
+    </FormModal>
+    <div v-if="document">
+      <ul>
+        <li v-for="(doc, index) in document.content" :key="index">
+          <router-link :to="{ name: 'detail', params: { id:  doc.documentId }}">
+            <strong>제목 : </strong>{{ doc.title }} <br>
+          </router-link>
+          <strong>내용 : </strong>{{ doc.description }} <br>
+          <strong>시작일 : </strong>{{ doc.period.startDate }} <br>
+          <strong>종료일 : </strong>{{ doc.period.endDate }} <br><br>
+        </li>
+      </ul>
+    </div>
+  </div>
+</template>
+
+<script>
+import FormModal from '../components/common/FormModal.vue'
+import axios from 'axios';
+
+export default {
+  data() {
+    return {
+      period: {
+        startDate: '',
+        endDate: '',
+      },
+      dTitle: '',
+      dDescription: '',
+      document: null, // 객체로 초기화
+      showModal: false
+    };
+  },
+  mounted() {
+    this.getDocument();
+  },
+  methods: {
+    getDocument() {
+      axios.get('http://localhost:8090/api/documents').then(res => {
+        this.document = res.data; // 객체로 저장
+        console.log(this.document.content);
+      })
+    },
+    showPopup() {
+      this.showModal = !this.showModal;
+    },
+    submitForm() {
+      const data = {
+        period: {
+          startDate: this.period.startDate,
+          endDate: this.period.endDate
+        },
+        title: this.dTitle,
+        description: this.dDescription,
+        memberId: '1',
+      }
+      // 시작일, 종료일 날짜 형식 확인
+      axios.post('http://localhost:8090/api/documents', data, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => {
+        console.log(response, this.period.startDate, this.period.endDate);
+      });
+
+      // window.location.reload();
+    }
+  },
+  components: {
+    'FormModal': FormModal
+  },
+};
+</script>
+
+<style lang="scss" scoped>
+
+</style>
