@@ -50,9 +50,9 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests((authorizeRequests) ->
                         authorizeRequests.dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                                .requestMatchers("/h2-console/**").permitAll()
-                                .requestMatchers("/api/members**").permitAll()
-                                .requestMatchers("/**").permitAll()
+                              //  .requestMatchers("/h2-console/**").permitAll()
+                               // .requestMatchers("/api/members**").permitAll()
+                                //.requestMatchers("/**").permitAll()
                                 .anyRequest().authenticated()
 
                 ).formLogin(login -> login.defaultSuccessUrl("/swagger-ui/index.html", true)
