@@ -30,7 +30,7 @@ public class SecurityConfig {
             config.setAllowedHeaders(Collections.singletonList("*"));
             config.setAllowedMethods(Collections.singletonList("*"));
             config.addAllowedMethod("POST");
-            config.setAllowedOriginPatterns(Collections.singletonList("http://localhost:8081"));
+            config.setAllowedOriginPatterns(Collections.singletonList("http://localhost:8080"));
             config.setAllowCredentials(true);
 
             UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
