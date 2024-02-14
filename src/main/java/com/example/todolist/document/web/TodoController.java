@@ -24,7 +24,7 @@ public class TodoController {
     }
 
     @PostMapping("/todo")
-    public ResponseEntity<Void> createTodo(TodoRequest todoRequest) {
+    public ResponseEntity<Void> createTodo(@RequestBody TodoRequest todoRequest) {
         Integer id = todoService.createTodo(todoRequest);
         return ResponseEntity.created(URI.create("api/todo/" + id)).build();
     }
@@ -42,6 +42,12 @@ public class TodoController {
     @PutMapping("/todo")
     public ResponseEntity<Void> updateTodo(@PathVariable Integer todoId, TodoUpdateRequest todoUpdateReqeust) {
         todoService.updateTodo(todoId, todoUpdateReqeust);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/todo")
+    public ResponseEntity<Void> deleteTodo(@RequestParam(name = "todoId") Integer todoId) {
+        todoService.deleteTodo(todoId);
         return ResponseEntity.ok().build();
     }
 }
