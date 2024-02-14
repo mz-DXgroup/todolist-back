@@ -39,4 +39,8 @@ public class TodoService {
         Todo todo = todoRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(id + " 찾을 수 없습니다"));
         todo.update(dto);
     }
+
+    public void deleteTodo(Integer todoId) {
+        todoRepository.deleteById(todoId);
+    }
 }

@@ -23,7 +23,7 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-
+    private final String[] allowedUrls = {"/", "/swagger-ui/**", "/api/**","/h2-console","/**"};
     CorsConfigurationSource corsConfigurationSource() {
         return request -> {
             CorsConfiguration config = new CorsConfiguration();
@@ -50,17 +50,30 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests((authorizeRequests) ->
                         authorizeRequests.dispatcherTypeMatchers(DispatcherType.FORWARD).permitAll()
-                              //  .requestMatchers("/h2-console/**").permitAll()
-                               // .requestMatchers("/api/members**").permitAll()
-                                //.requestMatchers("/**").permitAll()
+                                .requestMatchers("/h2-console/**").permitAll()
+                                .requestMatchers("/api/members**").permitAll()
+                                .requestMatchers("/**").permitAll()
                                 .anyRequest().authenticated()
 
                 ).formLogin(login -> login.defaultSuccessUrl("/swagger-ui/index.html", true)
                         .permitAll()
                 )
                 .logout(withDefaults());
-
-
         return http.build();
     }
+//    @Bean
+//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+//        return http
+//                .csrf(AbstractHttpConfigurer::disable)
+//                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))    // H2 콘솔 사용을 위한 설정
+//                .authorizeHttpRequests(requests ->
+//                        requests.requestMatchers(allowedUrls).permitAll()    // requestMatchers의 인자로 전달된 url은 모두에게 허용
+//                                .requestMatchers(PathRequest.toH2Console()).permitAll()    // H2 콘솔 접속은 모두에게 허용
+//                                .anyRequest().authenticated()    // 그 외의 모든 요청은 인증 필요
+//                )
+//                .sessionManagement(sessionManagement ->
+//                        sessionManagement.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                )    // 세션을 사용하지 않으므로 STATELESS 설정
+//                .build();
+//    }
 }
