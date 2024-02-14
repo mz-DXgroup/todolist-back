@@ -1,8 +1,9 @@
 package com.example.todolist.document.domain.entity;
 
 import com.example.todolist.common.domain.entity.AuditingEntity;
-import com.example.todolist.member.domain.entity.Member;
 import com.example.todolist.document.domain.status.DayStatus;
+import com.example.todolist.document.domain.status.convertor.DayStatusConvertor;
+import com.example.todolist.member.domain.entity.Member;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,11 +29,11 @@ public class Document extends AuditingEntity {
 
     private String description;
 
-    //@Convert(converter = DayStatusConvertor.class)
+    @Convert(converter = DayStatusConvertor.class)
     private DayStatus dayStatus;
 
     @Setter
-    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "document")
+    @OneToMany(mappedBy = "document")
     private List<Todo> todos = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)

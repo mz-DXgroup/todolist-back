@@ -24,7 +24,7 @@ public class DocumentController {
     }
 
     @PostMapping("/documents")
-    public ResponseEntity<Void> createDocument(DocumentRequest documentRequest) {
+    public ResponseEntity<Void> createDocument(@RequestBody DocumentRequest documentRequest) {
         Integer id = documentService.createDocument(documentRequest);
         return ResponseEntity.created(URI.create("/documents/" + id)).build();
     }
