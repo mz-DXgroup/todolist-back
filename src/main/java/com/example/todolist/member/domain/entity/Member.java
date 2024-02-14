@@ -36,6 +36,11 @@ public class Member extends AuditingEntity {
         this.id = memberId;
     }
 
+    public Member(String userId, String pw) {
+        this.userId = userId;
+        this.pw = pw;
+    }
+
     public static Member fromId(Integer memberId) {
         return new Member(memberId);
     }
