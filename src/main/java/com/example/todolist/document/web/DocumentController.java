@@ -40,9 +40,14 @@ public class DocumentController {
     }
 
     @PutMapping("/documents/{documentId}")
-    public ResponseEntity<Void> updateDocument(@PathVariable Integer documentId, DocumentUpdateRequest documentUpdateRequest) {
+    public ResponseEntity<Void> updateDocument(@PathVariable Integer documentId,@RequestBody DocumentUpdateRequest documentUpdateRequest) {
         documentService.updateDocument(documentId, documentUpdateRequest);
         return ResponseEntity.ok().build();
     }
 
+    @DeleteMapping("/documents")
+    public ResponseEntity<Void> deleteDocument(@RequestParam(name = "documentId") Integer documentId) {
+        documentService.deleteDocument(documentId);
+        return ResponseEntity.created(URI.create("/documents/")).build();
+    }
 }

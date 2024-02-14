@@ -44,4 +44,8 @@ public class DocumentService {
                 .orElseThrow(() -> new IllegalArgumentException("없음"));
         document.update(request.period(), request.title(), request.description(), request.dayStatus());
     }
+
+    public void deleteDocument(Integer documentId){
+        documentRepository.deleteById(documentId);
+    }
 }
