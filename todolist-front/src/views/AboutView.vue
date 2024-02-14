@@ -16,7 +16,7 @@ export default {
       const route = useRoute()
       const { id } = route.params
       const detailInfo = ref({})
-    return { id ,detailInfo}
+    return { id ,detailInfo }
 
   },
   methods:{
