@@ -56,3 +56,7 @@ node_modules/
 
 #Mac
 **/.DS_Store
+
+#h2관련
+h2db.mv.db
+h2db.trace.db
