@@ -15,9 +15,9 @@
           <input id="d-description" type="text" v-model="dDescription" class="form-control">
           <hr>
           <label for="startDate">시작일: </label>
-          <input id="startDate" type="date" v-model="period.startDate"> <br>
+          <input id="startDate" type="datetime-local" v-model="period.startDate"> <br>
           <label for="endDate">종료일: </label>
-          <input id="endDate" type="date" v-model="period.endDate"> <hr> <br>
+          <input id="endDate" type="datetime-local" v-model="period.endDate"> <hr> <br>
           <button type="submit" class="btn btn-primary">추가</button>
           <button @click="showPopup" class="btn btn-danger">취소</button>
         </form>
@@ -96,6 +96,63 @@ export default {
   },
 };
 </script>
+
+<!-- <script>
+import FormModal from '../components/common/FormModal.vue'
+import axios from 'axios';
+
+export default {
+  data() {
+    return {
+      period: {
+        startDate: null, // Date 객체로 초기화
+        endDate: null, // Date 객체로 초기화
+      },
+      dTitle: '',
+      dDescription: '',
+      document: null,
+      showModal: false
+    };
+  },
+  mounted() {
+    this.getDocument();
+  },
+  methods: {
+    getDocument() {
+      axios.get('http://localhost:8090/api/documents').then(res => {
+        this.document = res.data;
+      })
+    },
+    showPopup() {
+      this.showModal = !this.showModal;
+    },
+    submitForm() {
+      // Date 객체를 ISO 8601 형식의 문자열로 변환
+      const data = {
+        period: {
+          startDate: this.period.startDate.toISOString(),
+          endDate: this.period.endDate.toISOString()
+        },
+        title: this.dTitle,
+        description: this.dDescription,
+        memberId: '1',
+      }
+      axios.post('http://localhost:8090/api/documents', data, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+      .then(response => {
+        console.log(response);
+        // 성공적으로 서버로 전송되었을 때의 처리
+      });
+    }
+  },
+  components: {
+    'FormModal': FormModal
+  },
+};
+</script> -->
 
 <style lang="scss" scoped>
 
