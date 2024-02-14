@@ -1,6 +1,5 @@
 <template>
   <div v-if="!isEditing">
-    <p>AboutView 페이지 입니다.</p>
     {{ detailInfo.title }} <br />
     {{ detailInfo.description }} <br />
     {{ detailInfo.period?.startDate }} <br />
@@ -14,8 +13,12 @@
     <input type="datetime-local" v-model="period.editedEndDate" /> <br />
   </div>
 
-  <button @click="toggleEditMode" v-if="!isEditing">수정</button>
-  <button @click="saveChanges" v-if="isEditing">저장</button>
+  <button @click="toggleEditMode" v-if="!isEditing" class="btn btn-primary">수정</button> &nbsp;
+  <button @click="saveChanges" v-if="isEditing" class="btn btn-primary">저장</button> &nbsp;
+  <button @click="removeDocument(id)" class="btn btn-danger">삭제</button> <br><br><br>
+  <button>추가</button><br>
+  <router-link :to="{ name: 'home' }">home
+          </router-link>
 </template>
 
 <script>
@@ -29,7 +32,8 @@ export default {
     const { id } = route.params;
     const detailInfo = ref({});
     const isEditing = ref(false);
-    return { id, detailInfo, isEditing };
+    
+    return { id, detailInfo, isEditing, history };
   },
   methods: {
     getDocumentDetail() {
@@ -74,6 +78,25 @@ export default {
           console.error("Error updating document:", error);
         });
     },
+    removeDocument(documentId) {
+      axios.delete('http://localhost:8090/api/documents', { params: { documentId } })
+        .then(() => {
+          console.log("Document successfully deleted.");
+        })
+        .catch((error) => {
+          console.error("Error deleting document:", error);
+        });
+    },
+    // removeDocument() {
+    //   axios
+    //     .delete(`http://localhost:8090/api/documents`)
+    //     .then(() => {
+    //       console.log("Document successfully deleted.");
+    //     })
+    //     .catch((error) => {
+    //       console.error("Error deleting document:", error);
+    //     });
+    // },
   },
   mounted() {
     this.getDocumentDetail();
