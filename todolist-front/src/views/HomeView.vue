@@ -3,15 +3,6 @@
     <h2>Document List</h2>
     <button @click="showPopup" class="btn btn-primary">추가</button>
 
-
-    <!-- <div class="card" style="width: 18rem;">
-  <div class="card-body">
-    <h5 class="card-title">Card title</h5>
-    <h6 class="card-subtitle mb-2 text-body-secondary">Card subtitle</h6>
-    <p class="card-text">Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-  </div>
-</div> -->
-
     <FormModal v-if="showModal" @close="showModal = false">
       <template #header>
         <h3>Document 추가</h3>
@@ -27,23 +18,26 @@
           <input id="startDate" type="datetime-local" v-model="period.startDate"> <br>
           <label for="endDate">종료일: </label>
           <input id="endDate" type="datetime-local" v-model="period.endDate"> <hr> <br>
-          <button type="submit" class="btn btn-primary">추가</button>
+          <p><button type="submit" class="btn btn-primary">추가</button></p>
           <button @click="showPopup" class="btn btn-danger">취소</button>
         </form>
       </template>
     </FormModal>
-    <div v-if="document">
-      <ul>
-        <li v-for="(doc, index) in document.content" :key="index">
-          <router-link :to="{ name: 'detail', params: { id:  doc.documentId }}">
-            <strong>제목 : </strong>{{ doc.title }} <br>
-          </router-link>
-          <strong>내용 : </strong>{{ doc.description }} <br>
-          <strong>시작일 : </strong>{{ doc.period.startDate }} <br>
-          <strong>종료일 : </strong>{{ doc.period.endDate }} <br><br>
-        </li>
-      </ul>
+    <div class="row" v-if="document">
+      <div class="col-md-4" v-for="(doc, index) in document.content" :key="index">
+        <div class="card mb-3 mt-3 ml-3">
+          <div class="card-body">
+            <router-link :to="{ name: 'detail', params: { id:  doc.documentId }}">
+              <h5 class="card-title"><strong>제목 : </strong>{{ doc.title }}</h5>
+            </router-link>
+            <p class="card-text"><strong>내용 : </strong>{{ doc.description }}</p>
+            <p class="card-text"><strong>시작일 : </strong>{{ doc.period.startDate }}</p>
+            <p class="card-text"><strong>종료일 : </strong>{{ doc.period.endDate }}</p>
+          </div>
+        </div>
+      </div>
     </div>
+    <button class="btn btn-danger">모두 삭제</button>
   </div>
 </template>
 
@@ -107,63 +101,6 @@ export default {
   },
 };
 </script>
-
-<!-- <script>
-import FormModal from '../components/common/FormModal.vue'
-import axios from 'axios';
-
-export default {
-  data() {
-    return {
-      period: {
-        startDate: null, // Date 객체로 초기화
-        endDate: null, // Date 객체로 초기화
-      },
-      dTitle: '',
-      dDescription: '',
-      document: null,
-      showModal: false
-    };
-  },
-  mounted() {
-    this.getDocument();
-  },
-  methods: {
-    getDocument() {
-      axios.get('http://localhost:8090/api/documents').then(res => {
-        this.document = res.data;
-      })
-    },
-    showPopup() {
-      this.showModal = !this.showModal;
-    },
-    submitForm() {
-      // Date 객체를 ISO 8601 형식의 문자열로 변환
-      const data = {
-        period: {
-          startDate: this.period.startDate.toISOString(),
-          endDate: this.period.endDate.toISOString()
-        },
-        title: this.dTitle,
-        description: this.dDescription,
-        memberId: '1',
-      }
-      axios.post('http://localhost:8090/api/documents', data, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-      .then(response => {
-        console.log(response);
-        // 성공적으로 서버로 전송되었을 때의 처리
-      });
-    }
-  },
-  components: {
-    'FormModal': FormModal
-  },
-};
-</script> -->
 
 <style lang="scss" scoped>
 

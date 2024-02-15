@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>테스트 페이지 입니다.</p>
+    add 페이지 입니다.
   </div>
 </template>
 
