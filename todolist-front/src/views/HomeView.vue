@@ -30,9 +30,6 @@
             <router-link :to="{ name: 'detail', params: { id:  doc.documentId }}">
               <h5 class="card-title"><strong>제목 : </strong>{{ doc.title }}</h5>
             </router-link>
-            <p class="card-text"><strong>내용 : </strong>{{ doc.description }}</p>
-            <p class="card-text"><strong>시작일 : </strong>{{ doc.period.startDate }}</p>
-            <p class="card-text"><strong>종료일 : </strong>{{ doc.period.endDate }}</p>
           </div>
         </div>
       </div>
