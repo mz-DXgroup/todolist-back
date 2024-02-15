@@ -7,14 +7,16 @@ public record TodoResponse(
         Integer todoId,
         Integer documentId,
         String todo,
+        String description,
         Period period,
         boolean isChecked
 ) {
-    public static TodoResponse from(Todo entity){
+    public static TodoResponse from(Todo entity) {
         return new TodoResponse(
                 entity.getId(),
                 entity.getDocument().getId(),
                 entity.getTodo(),
+                entity.getDescription(),
                 entity.getPeriod(),
                 entity.isChecked()
         );
