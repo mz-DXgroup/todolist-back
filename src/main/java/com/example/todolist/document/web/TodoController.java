@@ -29,9 +29,9 @@ public class TodoController {
         return ResponseEntity.created(URI.create("api/todo/" + id)).build();
     }
 
-    @GetMapping("/todo")
-    public ResponseEntity<Page<TodoResponse>> getTodos(@PageableDefault(size = 20, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-        return ResponseEntity.ok(todoService.getTodos(pageable));
+    @GetMapping("/todos/{documentId}")
+    public ResponseEntity<Page<TodoResponse>> getTodos(@PathVariable Integer documentId,@PageableDefault(size = 20, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+        return ResponseEntity.ok(todoService.getTodos(documentId,pageable));
     }
 
     @GetMapping("/todo/{todoId}")
