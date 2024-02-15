@@ -53,4 +53,13 @@ public class Member extends AuditingEntity {
         this.roles = roles;
         this.documents = documents;
     }
+
+    public Member(String name, String email, String userId, String pw, String role) {
+        this.name = name;
+        this.email = email;
+        this.userId = userId;
+        this.pw = pw;
+        this.roles = role;
+
+    }
 }

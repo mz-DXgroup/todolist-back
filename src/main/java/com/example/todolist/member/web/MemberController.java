@@ -1,6 +1,5 @@
 package com.example.todolist.member.web;
 
-import com.example.todolist.member.application.MemberService;
 import com.example.todolist.member.application.response.MemberResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,11 +12,7 @@ import java.security.Principal;
 @RestController
 public class MemberController {
 
-    private final MemberService memberService;
 
-    public MemberController(MemberService memberService) {
-        this.memberService = memberService;
-    }
     @GetMapping("/members")
     public ResponseEntity<MemberResponse> getMember(Principal principal) {
         return ResponseEntity.ok(MemberResponse.from(principal));
