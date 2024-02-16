@@ -1,7 +1,7 @@
 <template>
   <div class="row" v-if="todo">
     <div class="col-md-4" v-for="(item, index) in todo.content" :key="index">
-      <div class="card mb-3 mt-3 ms-3 me-3">
+      <div class="card mb-3 mt-3 ms-3 me-3" :class="{ 'is-checked': !item.isChecked }">
         <div class="card-body" v-if="!item.isTodoEditing">
           <strong>제목 : </strong>{{ item.todo }} <br />
           <strong>설명 : </strong>{{ item.description }} <br />
@@ -21,8 +21,8 @@
         <div v-else>
           <input type="text" v-model="item.todo" /> <br />
           <input type="text" v-model="item.description" /> <br />
-          <input type="datetime-local" v-model="item.period.startDate" /> <br />
-          <input type="datetime-local" v-model="item.period.endDate" /> <br />
+          <input type="date" v-model="item.period.startDate" /> <br />
+          <input type="date" v-model="item.period.endDate" /> <br />
           <button @click="saveTodoEdit(index)" class="btn btn-success">
             저장
           </button>
@@ -45,9 +45,8 @@ export default {
   setup() {
     const route = useRoute();
     const { id } = route.params;
-    const isFinish = ref(false);
     const todo = ref({});
-    return { todo, id, isFinish };
+    return { todo, id };
   },
   mounted() {
     this.getTodo();
@@ -107,4 +106,8 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped></style>
+<style>
+.is-checked {
+  text-decoration: line-through;
+}
+</style>

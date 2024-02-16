@@ -26,10 +26,20 @@
           />
           <hr />
           <label for="startDate">시작일: </label>
-          <input type="datetime-local" class="form-control" placeholder="datetime-local input" v-model="period.startDate">
+          <input
+            type="date"
+            class="form-control"
+            placeholder="date input"
+            v-model="period.startDate"
+          />
           <br />
           <label for="endDate">종료일: </label>
-          <input type="datetime-local" class="form-control" placeholder="datetime-local input" v-model="period.endDate">
+          <input
+            type="date"
+            class="form-control"
+            placeholder="date input"
+            v-model="period.endDate"
+          />
           <!-- <input id="endDate" type="datetime-local" v-model="period.endDate" /> -->
           <hr />
           <br />
@@ -55,7 +65,7 @@
         </div>
       </div>
     </div>
-    <!-- <button class="btn btn-danger">모두 삭제</button> -->
+    <button @click="removeAll" class="btn btn-danger ms-3">모두 삭제</button>
   </div>
 </template>
 
@@ -113,6 +123,16 @@ export default {
       // window.location.reload();
       this.showModal = !this.showModal;
       this.$router.go(this.$router.currentRoute);
+    },
+    removeAll() {
+      axios
+        .delete("http://localhost:8090/api/documents/all/")
+        .then(() => {
+          console.log("확인");
+        }) 
+        .catch(() => {
+          console.log("ㅇㅇ");
+        });
     },
   },
   components: {

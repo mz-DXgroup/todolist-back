@@ -12,8 +12,8 @@
       <div v-else>
         <input type="text" v-model="editedTitle" /> <br />
         <input type="text" v-model="editedDescription" /> <br />
-        <input type="datetime-local" v-model="period.editedStartDate" /> <br />
-        <input type="datetime-local" v-model="period.editedEndDate" /> <br />
+        <input type="date" v-model="period.editedStartDate" /> <br />
+        <input type="date" v-model="period.editedEndDate" /> <br />
       </div>
     </div>
 
@@ -72,9 +72,9 @@
     <label>설명</label>
     <input type="text" v-model="description" class="form-control" style="max-width: 300px;" /> <br />
     <label>시작일</label>
-    <input type="datetime-local" v-model="period.startDate" class="form-control" style="max-width: 300px;" /> <br />
+    <input type="date" v-model="period.startDate" class="form-control" style="max-width: 300px;" /> <br />
     <label>종료일</label>
-    <input type="datetime-local" v-model="period.endDate" class="form-control" style="max-width: 300px;" /> <br /><br />
+    <input type="date" v-model="period.endDate" class="form-control" style="max-width: 300px;" /> <br /><br />
     <button @click="addTodo" class="btn btn-primary">추가</button> <br />
   </div>
   <div v-else></div>
