@@ -3,9 +3,14 @@
     <div class="col-md-4" v-for="(item, index) in todo.content" :key="index">
       <div class="card mb-3 mt-3 ms-3 me-3">
         <div class="card-body" v-if="!item.isTodoEditing">
-          <strong>제목 : </strong>{{ item.todo }} <br>
-          <strong>시작일 : </strong>{{ item.period.startDate }} <br>
-          <strong>종료일 : </strong>{{ item.period.endDate }} <br><br>
+          <strong>제목 : </strong>{{ item.todo }} <br />
+          <strong>설명 : </strong>{{ item.description }} <br />
+          <strong>시작일 : </strong>{{ item.period.startDate }} <br />
+          <strong>종료일 : </strong>{{ item.period.endDate }} <br /><br />
+          {{ item.isChecked }}
+          <button @click="finishTodo(index)" class="btn btn-primary me-1">
+            완료
+          </button>
           <button @click="toggleTodoEditMode(index)" class="btn btn-primary">
             수정
           </button>
@@ -14,9 +19,10 @@
           </button>
         </div>
         <div v-else>
-          <input type="text" v-model="item.todo" /> <br>
-          <input type="datetime-local" v-model="item.period.startDate"> <br>
-          <input type="datetime-local" v-model="item.period.endDate"> <br>
+          <input type="text" v-model="item.todo" /> <br />
+          <input type="text" v-model="item.description" /> <br />
+          <input type="datetime-local" v-model="item.period.startDate" /> <br />
+          <input type="datetime-local" v-model="item.period.endDate" /> <br />
           <button @click="saveTodoEdit(index)" class="btn btn-success">
             저장
           </button>
@@ -26,6 +32,7 @@
         </div>
       </div>
     </div>
+    <router-link :to="{ name: 'home' }" class="router-link">home </router-link>
   </div>
 </template>
 
@@ -38,8 +45,9 @@ export default {
   setup() {
     const route = useRoute();
     const { id } = route.params;
+    const isFinish = ref(false);
     const todo = ref({});
-    return { todo, id };
+    return { todo, id, isFinish };
   },
   mounted() {
     this.getTodo();
@@ -55,29 +63,46 @@ export default {
     },
     saveTodoEdit(index) {
       const editedTodo = this.todo.content[index];
-      axios.put(`http://localhost:8090/api/todo/${editedTodo.todoId}`, editedTodo)
+      axios
+        .put(`http://localhost:8090/api/todo/${editedTodo.todoId}`, editedTodo)
         .then(() => {
           this.todo.content[index].isTodoEditing = false;
         })
-        .catch(error => {
-          console.error('저장 중 오류 발생:', error);
+        .catch((error) => {
+          console.error("저장 중 오류 발생:", error);
         });
     },
     cancelTodoEdit(index) {
       this.todo.content[index].isTodoEditing = false;
     },
     removeTodo(index) {
-  const todoToRemove = this.todo.content[index];
-  axios.delete(`http://localhost:8090/api/todo`, {
-    params: { todoId: todoToRemove.todoId }
-  })
-    .then(() => {
-      this.todo.content.splice(index, 1);
-    })
-    .catch(error => {
-      console.error('삭제 중 오류 발생:', error);
-    });
-},
+      const todoToRemove = this.todo.content[index];
+      axios
+        .delete(`http://localhost:8090/api/todo`, {
+          params: { todoId: todoToRemove.todoId },
+        })
+        .then(() => {
+          this.todo.content.splice(index, 1);
+        })
+        .catch((error) => {
+          console.error("삭제 중 오류 발생:", error);
+        });
+    },
+    finishTodo(index) {
+      const todoToFinish = this.todo.content[index];
+      todoToFinish.isChecked = !todoToFinish.isChecked;
+      axios
+        .put(
+          `http://localhost:8090/api/todo/${todoToFinish.todoId}`,
+          todoToFinish
+        )
+        .then(() => {
+          console.log("완료");
+        })
+        .catch((error) => {
+          console.error("완료 처리 중 오류 발생:", error);
+        });
+    },
   },
 };
 </script>
