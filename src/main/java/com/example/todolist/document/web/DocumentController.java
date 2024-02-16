@@ -1,10 +1,11 @@
 package com.example.todolist.document.web;
 
 import com.example.todolist.document.application.DocumentService;
-import com.example.todolist.document.application.dto.response.DocumentDetailResponse;
+import com.example.todolist.document.application.TodoService;
 import com.example.todolist.document.application.dto.request.DocumentRequest;
-import com.example.todolist.document.application.dto.response.DocumentResponse;
 import com.example.todolist.document.application.dto.request.DocumentUpdateRequest;
+import com.example.todolist.document.application.dto.response.DocumentDetailResponse;
+import com.example.todolist.document.application.dto.response.DocumentResponse;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -18,9 +19,11 @@ import java.net.URI;
 @RestController
 public class DocumentController {
     private final DocumentService documentService;
+    private final TodoService todoService;
 
-    public DocumentController(DocumentService documentService) {
+    public DocumentController(DocumentService documentService, TodoService service) {
         this.documentService = documentService;
+        this.todoService = service;
     }
 
     @PostMapping("/documents")
@@ -36,6 +39,9 @@ public class DocumentController {
 
     @GetMapping("/documents/{documentId}")
     public ResponseEntity<DocumentDetailResponse> getDocument(@PathVariable Integer documentId) {
+
+
+
         return ResponseEntity.ok(documentService.getDocument(documentId));
     }
 
@@ -48,6 +54,12 @@ public class DocumentController {
     @DeleteMapping("/documents")
     public ResponseEntity<Void> deleteDocument(@RequestParam(name = "documentId") Integer documentId) {
         documentService.deleteDocument(documentId);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/documents/all/")
+    public ResponseEntity<Void> deleteDocumentAll() {
+        documentService.deleteDocumentAll();
         return ResponseEntity.ok().build();
     }
 }

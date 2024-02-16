@@ -19,9 +19,9 @@ public class QPeriod extends BeanPath<Period> {
 
     public static final QPeriod period = new QPeriod("period");
 
-    public final DateTimePath<java.time.LocalDateTime> endDate = createDateTime("endDate", java.time.LocalDateTime.class);
+    public final DatePath<java.time.LocalDate> endDate = createDate("endDate", java.time.LocalDate.class);
 
-    public final DateTimePath<java.time.LocalDateTime> startDate = createDateTime("startDate", java.time.LocalDateTime.class);
+    public final DatePath<java.time.LocalDate> startDate = createDate("startDate", java.time.LocalDate.class);
 
     public QPeriod(String variable) {
         super(Period.class, forVariable(variable));

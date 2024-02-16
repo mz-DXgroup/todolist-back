@@ -33,7 +33,7 @@ public class Document extends AuditingEntity {
     private DayStatus dayStatus;
 
     @Setter
-    @OneToMany(mappedBy = "document")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "document")
     private List<Todo> todos = new ArrayList<>();
 
     @ManyToOne(fetch = FetchType.LAZY)

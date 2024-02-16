@@ -34,9 +34,15 @@ public class DocumentService {
 
     @Transactional(readOnly = true)
     public DocumentDetailResponse getDocument(Integer id) {
-        return DocumentDetailResponse.from(
-                documentRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(id + "찾을수 없습니다."))
-        );
+        Document document = documentRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(id + "찾을수 없습니다."));
+        boolean isTodoEmpty = false;
+
+        if (!document.getTodos().isEmpty()) {
+            isTodoEmpty = true;
+        }
+
+        return DocumentDetailResponse.from(document, isTodoEmpty);
+
     }
 
     public void updateDocument(Integer documentId, DocumentUpdateRequest request) {
@@ -45,7 +51,11 @@ public class DocumentService {
         document.update(request.period(), request.title(), request.description(), request.dayStatus());
     }
 
-    public void deleteDocument(Integer documentId){
+    public void deleteDocument(Integer documentId) {
         documentRepository.deleteById(documentId);
+    }
+
+    public void deleteDocumentAll() {
+        documentRepository.deleteAll();
     }
 }

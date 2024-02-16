@@ -30,8 +30,8 @@ public class TodoController {
     }
 
     @GetMapping("/todos/{documentId}")
-    public ResponseEntity<Page<TodoResponse>> getTodos(@PathVariable Integer documentId,@PageableDefault(size = 20, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-        return ResponseEntity.ok(todoService.getTodos(documentId,pageable));
+    public ResponseEntity<Page<TodoResponse>> getTodos(@PathVariable Integer documentId, @PageableDefault(size = 20, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
+        return ResponseEntity.ok(todoService.getTodos(documentId, pageable));
     }
 
     @GetMapping("/todo/{todoId}")
@@ -48,6 +48,12 @@ public class TodoController {
     @DeleteMapping("/todo")
     public ResponseEntity<Void> deleteTodo(@RequestParam(name = "todoId") Integer todoId) {
         todoService.deleteTodo(todoId);
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/todo/all")
+    public ResponseEntity<Void> deleteTodoAll() {
+        todoService.deleteTodoAll();
         return ResponseEntity.ok().build();
     }
 }
