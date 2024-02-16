@@ -39,7 +39,7 @@ public class DocumentService {
 
         if (!document.getTodos().isEmpty()) {
             isTodoEmpty = true;
-        }
+        };
 
         return DocumentDetailResponse.from(document, isTodoEmpty);
 

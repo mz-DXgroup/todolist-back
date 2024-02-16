@@ -1,9 +1,14 @@
 package com.example.todolist.common.config;
 
+import com.example.todolist.common.login.CustomAccessDeniedHandler;
+import com.example.todolist.common.login.CustomAuthenticationEntryPoint;
+import com.example.todolist.common.login.CustomUserDetailsService;
 import jakarta.servlet.DispatcherType;
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,12 +23,22 @@ import java.util.Collections;
 import static org.springframework.security.config.Customizer.withDefaults;
 
 @Configuration
+@EnableWebSecurity
+@RequiredArgsConstructor
 public class SecurityConfig {
+
+    private final CustomUserDetailsService customUserDetailsService;
+    private final JwtUtil jwtUtil;
+    private final CustomAccessDeniedHandler accessDeniedHandler;
+    private final CustomAuthenticationEntryPoint authenticationEntryPoint;
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-    private final String[] allowedUrls = {"/", "/swagger-ui/**", "/api/**","/h2-console","/**"};
+
+    private final String[] allowedUrls = {"/", "/swagger-ui/**", "/api/**", "/h2-console", "/**"};
+
     CorsConfigurationSource corsConfigurationSource() {
         return request -> {
             CorsConfiguration config = new CorsConfiguration();
@@ -59,6 +74,7 @@ public class SecurityConfig {
                         .permitAll()
                 )
                 .logout(withDefaults());
+
         return http.build();
     }
 //    @Bean

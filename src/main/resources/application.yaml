@@ -1,5 +1,9 @@
 server:
-  port : 8090
+  port: 8090
+
+jwt:
+  expiration_time: 86400000 #1일
+  secret: VlwEyVBsYt9V7zq57TejMnVUyzblYcfPQye08f7MGVA9XkHa
 
 spring:
   h2:
@@ -13,12 +17,12 @@ spring:
     username: sa
     password:
 
-#spring:
-#  datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://localhost:3306/testcontainer?serverTimezone=Asia/Seoul
-#    username: root
-#    password: 1234
+  #spring:
+  #  datasource:
+  #    driver-class-name: com.mysql.cj.jdbc.Driver
+  #    url: jdbc:mysql://localhost:3306/testcontainer?serverTimezone=Asia/Seoul
+  #    username: root
+  #    password: 1234
 
   jpa:
     hibernate:
