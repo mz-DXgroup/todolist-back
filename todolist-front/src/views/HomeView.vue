@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h2>Document List</h2>
-    <button @click="showPopup" class="btn btn-primary">추가</button>
+    <h1 class="display-6 ms-3 mt-2">Document List</h1>
+    <button @click="showPopup" class="btn btn-primary mt-3 ms-3">추가</button>
 
     <FormModal v-if="showModal" @close="showModal = false">
       <template #header>
@@ -10,49 +10,64 @@
       <template #body>
         <form action="" @submit.prevent="submitForm">
           <label for="d-title">제목</label>
-          <input id="d-title" type="text" v-model="dTitle" class="form-control"> <br>
+          <input id="d-title" type="text" v-model="dTitle" class="form-control" />
+          <br />
           <label for="d-description">내용</label>
-          <input id="d-description" type="text" v-model="dDescription" class="form-control">
-          <hr>
+          <input id="d-description" type="text" v-model="dDescription" class="form-control" />
+          <hr />
           <label for="startDate">시작일: </label>
-          <input id="startDate" type="datetime-local" v-model="period.startDate"> <br>
+          <input type="date" class="form-control" placeholder="date input" v-model="period.startDate" />
+          <br />
           <label for="endDate">종료일: </label>
-          <input id="endDate" type="datetime-local" v-model="period.endDate"> <hr> <br>
-          <p><button type="submit" class="btn btn-primary">추가</button></p>
+          <input type="date" class="form-control" placeholder="date input" v-model="period.endDate" />
+          <hr />
+          <br />
+          <button type="submit" class="btn btn-primary me-1">추가</button>
           <button @click="showPopup" class="btn btn-danger">취소</button>
         </form>
       </template>
     </FormModal>
     <div class="row" v-if="document">
       <div class="col-md-4" v-for="(doc, index) in document.content" :key="index">
-        <div class="card mb-3 mt-3 ml-3">
+        <div class="card mb-3 mt-3 ml-3 ms-3 me-3">
           <div class="card-body">
-            <router-link :to="{ name: 'detail', params: { id:  doc.documentId }}">
-              <h5 class="card-title"><strong>제목 : </strong>{{ doc.title }}</h5>
+            <router-link :to="{ name: 'detail', params: { id: doc.documentId } }">
+              <h5 class="card-title"><strong>■ </strong>{{ doc.title }}</h5>
             </router-link>
           </div>
         </div>
       </div>
     </div>
-    <button class="btn btn-danger">모두 삭제</button>
+    <input type="file" name="photo" id="photo" />
+    <button @click="showCheckPopup" class="btn btn-danger ms-3">전체 삭제</button>
+    <FormModal v-if="showCheckModal" @close="showCheckModal = false">
+      <template #header>
+        <p>※주의</p>
+      </template>
+      <template #body>
+        <p>Document와 하위의 항목 모두 삭제하시겠습니까?</p>
+        <button @click="removeAll" class="btn btn-primary me-1">확인</button>
+        <button @click="showCheckPopup" class="btn btn-danger">취소</button>
+      </template>
+    </FormModal>
   </div>
 </template>
-
 <script>
-import FormModal from '../components/common/FormModal.vue'
-import axios from 'axios';
+import FormModal from "../components/common/FormModal.vue";
+import axios from "axios";
 
 export default {
   data() {
     return {
       period: {
-        startDate: '',
-        endDate: '',
+        startDate: "",
+        endDate: "",
       },
-      dTitle: '',
-      dDescription: '',
+      dTitle: "",
+      dDescription: "",
       document: null, // 객체로 초기화
-      showModal: false
+      showModal: false,
+      showCheckModal: false,
     };
   },
   mounted() {
@@ -60,45 +75,78 @@ export default {
   },
   methods: {
     getDocument() {
-      axios.get('http://localhost:8090/api/documents').then(res => {
+      axios.get("http://localhost:8090/api/documents").then((res) => {
         this.document = res.data; // 객체로 저장
         console.log(this.document.content);
-      })
+      });
     },
     showPopup() {
       this.showModal = !this.showModal;
     },
+    showCheckPopup() {
+      this.showCheckModal = !this.showCheckModal;
+    },
     submitForm() {
+      if (!this.dTitle.trim() || !this.dDescription.trim()) {
+        alert("제목과 설명을 입력해주세요.");
+        return;
+      }
+      if (this.dTitle.length > 50 || this.dDescription.length > 200) {
+        alert("제목은 50글자 이내, 설명은 200글자 이내로 입력해주세요.");
+        return;
+      }
+      if (!this.period.startDate || !this.period.endDate) {
+        alert("시작일과 종료일을 모두 입력해주세요.");
+        return;
+      }
+      if (this.period.startDate > this.period.endDate) {
+        alert("시작일이 종료일보다 클 수 없습니다.");
+        return;
+      }
+      // 제목 중복값 체크
+      const isDuplicateTitle = this.document.content.some(
+        (doc) => doc.title === this.dTitle
+      );
+      if (isDuplicateTitle) {
+        alert("동일한 제목이 이미 존재합니다. 다른 제목을 입력해주세요.");
+        return;
+      }
       const data = {
         period: {
           startDate: this.period.startDate,
-          endDate: this.period.endDate
+          endDate: this.period.endDate,
         },
         title: this.dTitle,
         description: this.dDescription,
-        memberId: '1',
-      }
-      // 시작일, 종료일 날짜 형식 확인
-      axios.post('http://localhost:8090/api/documents', data, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-      .then(response => {
-        console.log(response, this.period.startDate, this.period.endDate);
-      });
+        memberId: "1",
+      };
+      axios
+        .post("http://localhost:8090/api/documents", data, {
+          headers: {
+            "Content-Type": "application/json",
+          },
+        })
+        .then((response) => {
+          console.log(response, this.period.startDate, this.period.endDate);
+        });
 
-      // window.location.reload();
       this.showModal = !this.showModal;
       this.$router.go(this.$router.currentRoute);
-    }
+    },
+    removeAll() {
+      axios
+        .delete("http://localhost:8090/api/documents/all/")
+        .then(() => {
+          this.showCheckModal = !this.showCheckModal;
+          this.$router.go(this.$router.currentRoute);
+        });
+    },
   },
+  
   components: {
-    'FormModal': FormModal
+    FormModal: FormModal,
   },
 };
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style scoped></style>
