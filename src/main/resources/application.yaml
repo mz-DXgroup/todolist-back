@@ -50,6 +50,10 @@ logging:
 #    disable-swagger-default-url: true
 #    display-request-duration: true
 
+upload:
+  directory: C:\otherGitClone
+
+
 
 
 

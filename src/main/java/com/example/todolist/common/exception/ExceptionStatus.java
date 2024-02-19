@@ -14,7 +14,8 @@ public enum ExceptionStatus {
     USER_IS_NOT_EXIST(404, "사용자가 존재 하지 않습니다."),
     REQUEST_IS_EMPTY(404, "요청이 존재하지 않습니다."),
     PAGE_IS_NOT_EXIST(404, "요청하신 페이지 내역이 존재하지 않습니다."),
-    USERNAME_IS_EXIST(409, "이미 등록된 정보입니다.");
+    USERNAME_IS_EXIST(409, "이미 등록된 정보입니다."),
+    FILE_NOT_FOUND(404,"파일을 찾을 수 없습니다");
 
 
     private final int statusCode;
