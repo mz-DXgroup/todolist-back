@@ -1,6 +1,6 @@
 package com.example.todolist.document.application;
 
-import com.example.todolist.document.application.dto.FileResponse;
+import com.example.todolist.document.application.dto.response.FileResponse;
 import com.example.todolist.document.domain.entity.FileStore;
 import com.example.todolist.document.domain.repository.FileStoreRepository;
 import lombok.RequiredArgsConstructor;

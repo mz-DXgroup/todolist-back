@@ -1,7 +1,7 @@
 package com.example.todolist.document.web;
 
 import com.example.todolist.document.application.FileService;
-import com.example.todolist.document.application.dto.FileResponse;
+import com.example.todolist.document.application.dto.response.FileResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
