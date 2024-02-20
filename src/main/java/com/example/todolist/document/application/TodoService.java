@@ -5,7 +5,7 @@ import com.example.todolist.document.application.dto.request.TodoUpdateRequest;
 import com.example.todolist.document.application.dto.response.TodoDetailResponse;
 import com.example.todolist.document.application.dto.response.TodoResponse;
 import com.example.todolist.document.domain.entity.Todo;
-import com.example.todolist.document.domain.repository.TodoRepository;
+import com.example.todolist.document.domain.port.repository.TodoRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

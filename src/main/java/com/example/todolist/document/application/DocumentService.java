@@ -7,7 +7,7 @@ import com.example.todolist.document.application.dto.request.DocumentRequest;
 import com.example.todolist.document.application.dto.response.DocumentResponse;
 import com.example.todolist.document.application.dto.request.DocumentUpdateRequest;
 import com.example.todolist.document.domain.entity.Document;
-import com.example.todolist.document.domain.repository.DocumentRepository;
+import com.example.todolist.document.domain.port.repository.DocumentRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

@@ -2,7 +2,7 @@ package com.example.todolist.document.application;
 
 import com.example.todolist.document.application.dto.response.FileResponse;
 import com.example.todolist.document.domain.entity.FileStore;
-import com.example.todolist.document.domain.repository.FileStoreRepository;
+import com.example.todolist.document.domain.port.repository.FileStoreRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
