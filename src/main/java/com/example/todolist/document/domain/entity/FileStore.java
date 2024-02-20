@@ -1,5 +1,6 @@
 package com.example.todolist.document.domain.entity;
 
+import com.example.todolist.common.domain.entity.AuditingEntity;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +10,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @Entity
-public class FileStore {
+public class FileStore extends AuditingEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

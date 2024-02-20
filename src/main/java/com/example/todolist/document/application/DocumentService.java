@@ -1,11 +1,14 @@
 package com.example.todolist.document.application;
 
+import com.example.todolist.common.exception.CustomException;
+import com.example.todolist.common.exception.ExceptionStatus;
 import com.example.todolist.document.application.dto.response.DocumentDetailResponse;
 import com.example.todolist.document.application.dto.request.DocumentRequest;
 import com.example.todolist.document.application.dto.response.DocumentResponse;
 import com.example.todolist.document.application.dto.request.DocumentUpdateRequest;
 import com.example.todolist.document.domain.entity.Document;
 import com.example.todolist.document.domain.repository.DocumentRepository;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -23,7 +26,13 @@ public class DocumentService {
 
     public Integer createDocument(DocumentRequest documentRequest) {
         Document document = documentRequest.toEntity();
-        documentRepository.save(document);
+        try {
+            documentRepository.save(document);
+            documentRepository.flush();
+        } catch (DataIntegrityViolationException e) {
+            throw new CustomException(ExceptionStatus.TITLE_NAME_DUPLICATE);
+        }
+
         return document.getId();
     }
 

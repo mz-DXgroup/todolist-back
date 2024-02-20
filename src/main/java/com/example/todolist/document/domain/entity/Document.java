@@ -19,6 +19,7 @@ import java.util.List;
 @NoArgsConstructor
 @Getter
 @ToString
+
 @Entity
 public class Document extends AuditingEntity {
 
@@ -29,6 +30,7 @@ public class Document extends AuditingEntity {
     private Period period;
 
     @NotNull
+    @Column(unique = true)
     private String title;
 
     @NotNull

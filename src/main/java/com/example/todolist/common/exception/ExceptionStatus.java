@@ -18,7 +18,8 @@ public enum ExceptionStatus {
     FILE_NOT_FOUND(404, "파일을 찾을 수 없습니다"),
     TITLE_LENGTH_OVER(400, "제목이 없거나, 50글자를 초과 할 수 없습니다."),
     DESC_LENGTH_OVER(400, "설명이 없거나,  200글자를 초과 할 수 없습니다."),
-    PERIOD_NOT_MATCH(400, "시작시간과 끝나는 시간을 확인해주세요");
+    PERIOD_NOT_MATCH(400, "시작시간과 끝나는 시간을 확인해주세요"),
+    TITLE_NAME_DUPLICATE(409, "이미 있는 제목입니다.");
 
 
     private final int statusCode;
