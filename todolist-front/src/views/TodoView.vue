@@ -9,22 +9,45 @@
           <strong>제목 : </strong>{{ item.todo }} <br />
           <strong>설명 : </strong>{{ item.description }} <br />
           <strong>시작일 : </strong>{{ item.period.startDate }} <br />
-          <strong>종료일 : </strong>{{ item.period.endDate }} <br /><br />
-          <button @click="finishTodo(index)" class="btn btn-primary me-1">완료</button>
-          <button @click="toggleTodoEditMode(index)" class="btn btn-primary">수정</button>
-          <button @click="removeTodo(index)" class="btn btn-danger ms-1">삭제</button>
+          <strong>종료일 : </strong>{{ item.period.endDate }} <br />
+          <strong>첨부파일 : </strong>{{ filetest.originalFilename }} <br />
+          <strong>todoId : </strong>{{ item.todoId }} <br />
+          <!-- <input type="file" @change="handleFileUpload" /> -->
+          <input type="file" @change="handleFileUpload(index, $event)" class="mt-2" />
+          <button @click="finishTodo(index)" class="btn btn-primary mt-3 me-1">
+            완료
+          </button>
+          <button
+            @click="toggleTodoEditMode(index)"
+            class="btn btn-primary mt-3"
+          >
+            수정
+          </button>
+          <button @click="removeTodo(index)" class="btn btn-danger mt-3 ms-1">
+            삭제
+          </button>
         </div>
         <div v-else>
           <input type="text" v-model="item.todo" /> <br />
           <input type="text" v-model="item.description" /> <br />
           <input type="date" v-model="item.period.startDate" /> <br />
           <input type="date" v-model="item.period.endDate" /> <br />
-          <button @click="saveTodoEdit(index)" class="btn btn-success">저장</button>
-          <button @click="cancelTodoEdit(index)" class="btn btn-danger">취소</button>
+          <button @click="saveTodoEdit(index)" class="btn btn-success">
+            저장
+          </button>
+          <button @click="cancelTodoEdit(index)" class="btn btn-danger">
+            취소
+          </button>
         </div>
       </div>
     </div>
-    <router-link :to="{ name: 'home' }" class="router-link">home</router-link>
+    <div>
+      <router-link :to="{ name: 'home' }" class="router-link">home</router-link>
+    </div>
+    <br />
+    <div id="imagePreview">
+      <img id="img" />
+    </div>
   </div>
 </template>
 
@@ -38,7 +61,8 @@ export default {
     const route = useRoute();
     const { id } = route.params;
     const todo = ref({});
-    return { todo, id };
+    const filetest = ref({});
+    return { todo, id, filetest };
   },
   mounted() {
     this.getTodo();
@@ -49,6 +73,37 @@ export default {
         this.todo = res.data; // 객체로 저장
       });
     },
+    // getFile() {
+    //   axios.get(`http://localhost:8090/api/file/${}`).then((res) => {
+    //     console.log("this.id", this.id);
+    //     console.log(res);
+    //   });
+    // },
+    handleFileUpload(index, event) {
+      const test = this.todo.content[index];
+      const file = event.target.files[0];
+      const formData = new FormData();
+      formData.append("multipartFile", file);
+
+      axios
+        .post(`http://localhost:8090/api/file/${test.todoId}`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        })
+        .then((response) => {
+          console.log("파일 업로드 성공:", response.data);
+          console.log("아이디" ,test.todoId);
+        })
+        .catch((error) => {
+          console.error("파일 업로드 오류:", error);
+          console.log("아이디" ,test.todoId);
+        });
+        axios.get(`http://localhost:8090/api/file/${test.todoId}`).then((res) => {
+          this.filetest = res.data;
+      });
+    },
+
     toggleTodoEditMode(index) {
       this.todo.content[index].isTodoEditing = true;
     },
@@ -82,6 +137,7 @@ export default {
     },
     cancelTodoEdit(index) {
       this.todo.content[index].isTodoEditing = false;
+      this.$router.go(this.$router.currentRoute);
     },
     removeTodo(index) {
       const todoToRemove = this.todo.content[index];
