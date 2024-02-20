@@ -39,12 +39,12 @@ public class DocumentController {
     }
 
     @GetMapping("/documents/{documentId}")
-    public ResponseEntity<DocumentDetailResponse> getDocument(@PathVariable Integer documentId) {
+    public ResponseEntity<DocumentDetailResponse> getDocument(@PathVariable(name = "documentId") Integer documentId) {
         return ResponseEntity.ok(documentService.getDocument(documentId));
     }
 
     @PutMapping("/documents/{documentId}")
-    public ResponseEntity<Void> updateDocument(@PathVariable Integer documentId, @RequestBody DocumentUpdateRequest documentUpdateRequest) {
+    public ResponseEntity<Void> updateDocument(@PathVariable(name = "documentId") Integer documentId, @RequestBody DocumentUpdateRequest documentUpdateRequest) {
         documentService.updateDocument(documentId, documentUpdateRequest);
         return ResponseEntity.ok().build();
     }
