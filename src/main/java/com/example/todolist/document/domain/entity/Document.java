@@ -1,10 +1,13 @@
 package com.example.todolist.document.domain.entity;
 
 import com.example.todolist.common.domain.entity.AuditingEntity;
+import com.example.todolist.common.exception.CustomException;
+import com.example.todolist.common.exception.ExceptionStatus;
 import com.example.todolist.document.domain.status.DayStatus;
 import com.example.todolist.document.domain.status.convertor.DayStatusConvertor;
 import com.example.todolist.member.domain.entity.Member;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,8 +28,10 @@ public class Document extends AuditingEntity {
 
     private Period period;
 
+    @NotNull
     private String title;
 
+    @NotNull
     private String description;
 
     @Convert(converter = DayStatusConvertor.class)
@@ -42,8 +47,8 @@ public class Document extends AuditingEntity {
 
     public Document(Period period, String title, String description, Member member, DayStatus dayStatus) {
         this.period = period;
-        this.title = title;
-        this.description = description;
+        this.title = titleLimitLen(title);
+        this.description = descLimitLen(description);
         this.member = member;
         this.dayStatus = dayStatus;
     }
@@ -54,12 +59,30 @@ public class Document extends AuditingEntity {
 
     public void update(Period period, String title, String description, DayStatus dayStatus) {
         this.period = period;
-        this.title = title;
-        this.description = description;
+        this.title = titleLimitLen(title);
+        this.description = descLimitLen(description);
         this.dayStatus = dayStatus;
     }
 
     public static Document fromId(Integer documentId) {
         return new Document(documentId);
     }
+
+    static final Integer TITLE_MAX_LENGTH = 50;
+    static final Integer DESC_MAX_LENGTH = 200;
+
+    public static String titleLimitLen(String title) {
+        if (title == null || title.length() > TITLE_MAX_LENGTH) {
+            throw new CustomException(ExceptionStatus.TITLE_LENGTH_OVER);
+        }
+        return title;
+    }
+
+    public static String descLimitLen(String description) {
+        if (description == null || description.length() > DESC_MAX_LENGTH) {
+            throw new CustomException(ExceptionStatus.DESC_LENGTH_OVER);
+        }
+        return description;
+    }
+
 }

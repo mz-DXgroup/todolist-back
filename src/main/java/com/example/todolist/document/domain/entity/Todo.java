@@ -5,6 +5,10 @@ import com.example.todolist.document.domain.dto.TodoDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 @NoArgsConstructor
@@ -27,6 +31,10 @@ public class Todo extends AuditingEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "document_id")
     private Document document;
+
+    @Setter
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "todo")
+    private List<FileStore> fileStores = new ArrayList<>();
 
     public Todo(String todo, String description, Period period, boolean isChecked, Document document) {
         this.todo = todo;

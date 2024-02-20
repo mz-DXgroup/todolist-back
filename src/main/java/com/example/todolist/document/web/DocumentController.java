@@ -6,6 +6,7 @@ import com.example.todolist.document.application.dto.request.DocumentRequest;
 import com.example.todolist.document.application.dto.request.DocumentUpdateRequest;
 import com.example.todolist.document.application.dto.response.DocumentDetailResponse;
 import com.example.todolist.document.application.dto.response.DocumentResponse;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -27,7 +28,7 @@ public class DocumentController {
     }
 
     @PostMapping("/documents")
-    public ResponseEntity<Void> createDocument(@RequestBody DocumentRequest documentRequest) {
+    public ResponseEntity<Void> createDocument(@RequestBody @Valid DocumentRequest documentRequest) {
         Integer id = documentService.createDocument(documentRequest);
         return ResponseEntity.created(URI.create("/api/documents/" + id)).build();
     }
@@ -39,9 +40,6 @@ public class DocumentController {
 
     @GetMapping("/documents/{documentId}")
     public ResponseEntity<DocumentDetailResponse> getDocument(@PathVariable Integer documentId) {
-
-
-
         return ResponseEntity.ok(documentService.getDocument(documentId));
     }
 
@@ -57,7 +55,7 @@ public class DocumentController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/documents/all/")
+    @DeleteMapping("/documents/all")
     public ResponseEntity<Void> deleteDocumentAll() {
         documentService.deleteDocumentAll();
         return ResponseEntity.ok().build();
