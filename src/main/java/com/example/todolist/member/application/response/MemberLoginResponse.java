@@ -8,19 +8,5 @@ public record MemberLoginResponse(
         String jwt
 
 ) {
-    public static MemberLoginResponse from(Member member) {
-        return new MemberLoginResponse(
-                member.getUserId(),
-                null,
-                member.getPw()
-        );
-    }
 
-    public MemberLoginResponse loginResultInfo(String userId, String roles, String jwt) {
-        return new MemberLoginResponse(
-                userId,
-                roles,
-                jwt
-        );
-    }
 }
