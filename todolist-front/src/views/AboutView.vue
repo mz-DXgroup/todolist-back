@@ -17,14 +17,48 @@
       </div>
     </div>
 
-    <button @click="toggleEditMode" v-if="!isEditing" class="btn btn-primary mt-3 ms-3 me-3">수정</button>
-    <button @click="saveChanges" v-if="isEditing" class="btn btn-primary mt-3 ms-3 me-3">저장</button>
-    <button @click="cancelChanges" v-if="isEditing" class="btn btn-danger mt-3 ms-3 me-3">취소</button>
-    <button @click="removeDocument(id)" v-if="!isEditing" class="btn btn-danger mt-3 ms-3 me-3 mb-2">삭제</button>
+    <button
+      @click="toggleEditMode"
+      v-if="!isEditing"
+      class="btn btn-primary mt-3 ms-3 me-3"
+    >
+      수정
+    </button>
+    <button
+      @click="saveChanges"
+      v-if="isEditing"
+      class="btn btn-primary mt-3 ms-3 me-3"
+    >
+      저장
+    </button>
+    <button
+      @click="cancelChanges"
+      v-if="isEditing"
+      class="btn btn-danger mt-3 ms-3 me-3"
+    >
+      취소
+    </button>
+    <button
+      @click="removeDocument(id)"
+      v-if="!isEditing"
+      class="btn btn-danger mt-3 ms-3 me-3 mb-2"
+    >
+      삭제
+    </button>
   </div>
-  <button @click="toggleAdd" type="button" class="btn btn-outline-primary mt-3 ms-3">Todo 추가</button>
+  <button
+    @click="toggleAdd"
+    type="button"
+    class="btn btn-outline-primary mt-3 ms-3"
+  >
+    Todo 추가
+  </button>
   <button type="button" class="btn btn-outline-secondary mt-3 ms-2">
-    <router-link :to="{ name: 'todo', params: { id: detailInfo.documentId } }" class="router-link">Todo 조회</router-link>
+    <router-link
+      :to="{ name: 'todo', params: { id: detailInfo.documentId } }"
+      class="router-link"
+      >Todo 조회</router-link
+    >
   </button>
 
   <button type="button" class="btn btn-outline-success mt-3 ms-2">
@@ -34,16 +68,36 @@
   <hr />
   <div v-if="isAdd">
     <label>제목</label>
-    <input type="text" v-model="todo" class="form-control" style="max-width: 300px" />
+    <input
+      type="text"
+      v-model="todo"
+      class="form-control"
+      style="max-width: 300px"
+    />
     <br />
     <label>설명</label>
-    <input type="text" v-model="description" class="form-control" style="max-width: 300px" />
+    <input
+      type="text"
+      v-model="description"
+      class="form-control"
+      style="max-width: 300px"
+    />
     <br />
     <label>시작일</label>
-    <input type="date" v-model="period.startDate" class="form-control" style="max-width: 300px" />
+    <input
+      type="date"
+      v-model="period.startDate"
+      class="form-control"
+      style="max-width: 300px"
+    />
     <br />
     <label>종료일</label>
-    <input type="date" v-model="period.endDate" class="form-control" style="max-width: 300px" />
+    <input
+      type="date"
+      v-model="period.endDate"
+      class="form-control"
+      style="max-width: 300px"
+    />
     <br /><br />
     <button @click="addTodo" class="btn btn-primary">추가</button> <br />
   </div>
@@ -88,6 +142,7 @@ export default {
         .then((res) => {
           this.detailInfo = res.data;
           console.log(this.id);
+          console.log(this);
           // console.log(this.detailInfo);
         });
     },
@@ -119,7 +174,7 @@ export default {
       }
       // 제목과 설명 글자수 제한
       if (editedTitle.length > 50 || editedDescription.length > 200) {
-        alert("제목은 50글자 이내, 설명은 200글자 이내로 입력해주세요.")
+        alert("제목은 50글자 이내, 설명은 200글자 이내로 입력해주세요.");
       }
       // 시작일과 종료일 null값 체크
       if (!editedStartDate || !editedEndDate) {
@@ -155,16 +210,20 @@ export default {
       this.isEditing = !this.isEditing;
     },
     removeDocument(documentId) {
-      axios
-        .delete("http://localhost:8090/api/documents", {
-          params: { documentId },
-        })
-        .then(() => {
-          console.log("Document successfully deleted.");
-        })
-        .catch((error) => {
-          console.error("Error deleting document:", error);
-        });
+      if (this.detailInfo.isTodoEmpty === false) {
+        axios
+          .delete("http://localhost:8090/api/documents", {
+            params: { documentId },
+          })
+          .then(() => {
+            console.log("Document successfully deleted.");
+          })
+          .catch((error) => {
+            console.error("Error deleting document:", error);
+          });
+      } else {
+        alert("Todo 항목을 먼저 삭제해주세요.");
+      }
     },
     addTodo() {
       if (!this.todo.trim() || !this.description.trim()) {
@@ -182,8 +241,6 @@ export default {
         alert("시작일이 종료일보다 클 수 없습니다.");
         return;
       }
-
-      console.log("확인");
       const data = {
         period: {
           startDate: this.period.startDate,
