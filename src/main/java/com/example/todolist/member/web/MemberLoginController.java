@@ -3,6 +3,8 @@ package com.example.todolist.member.web;
 import com.example.todolist.member.application.LoginService;
 import com.example.todolist.member.application.request.MemberJoinRequest;
 import com.example.todolist.member.application.request.MemberLoginRequest;
+import com.example.todolist.member.application.response.MemberLoginResponse;
+import com.example.todolist.member.domain.entity.Member;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -20,9 +22,9 @@ public class MemberLoginController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<Void> login(@RequestBody MemberLoginRequest request) {
-        service.login(request);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<MemberLoginResponse> login(@RequestBody MemberLoginRequest request) {
+        MemberLoginResponse member = service.login(request);
+        return ResponseEntity.ok().body(member);
     }
 
     @PostMapping("/join")

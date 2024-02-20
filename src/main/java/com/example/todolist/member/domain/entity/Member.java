@@ -2,6 +2,7 @@ package com.example.todolist.member.domain.entity;
 
 import com.example.todolist.common.domain.entity.AuditingEntity;
 import com.example.todolist.document.domain.entity.Document;
+import com.example.todolist.member.domain.dto.MemberDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -61,5 +62,9 @@ public class Member extends AuditingEntity {
         this.pw = pw;
         this.roles = role;
 
+    }
+
+    public MemberDto memberDto() {
+        return new MemberDto(userId, name, email, roles, false);
     }
 }
