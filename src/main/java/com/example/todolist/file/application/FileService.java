@@ -1,5 +1,6 @@
 package com.example.todolist.file.application;
 
+import com.example.todolist.document.domain.entity.Todo;
 import com.example.todolist.file.application.response.FileResponse;
 import com.example.todolist.file.domain.entity.FileStore;
 import com.example.todolist.file.domain.port.repository.FileStoreRepository;
@@ -32,7 +33,7 @@ public class FileService {
         Path filePath = Paths.get(uploadDirectory, newFileName);
 
         // 파일 정보 저장
-        FileStore fileStore = new FileStore(newFileName, originalFileName, file.getContentType(), filePath.toString(), todoId);
+        FileStore fileStore = new FileStore(newFileName, originalFileName, file.getContentType(), filePath.toString(), Todo.fromId(todoId));
         fileStoreRepository.save(fileStore);
 
         // 서버 내부 스토리지에 업로드
@@ -49,7 +50,7 @@ public class FileService {
 
         return fileStoreRepository.findAll()
                 .stream()
-                .filter(i -> i.getTodoId().equals(todoId))
+                .filter(i -> i.getTodo().getId().equals(todoId))
                 .map(FileResponse::from).findFirst().orElseThrow(() -> new IllegalArgumentException("파일이 존재하지 않습니다."));   //todo 파일 여러개 일 경우 변경 필요
     }
 

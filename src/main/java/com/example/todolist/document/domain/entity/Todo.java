@@ -8,6 +8,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.management.relation.Relation;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -52,5 +53,12 @@ public class Todo extends AuditingEntity {
         this.period = dto.period();
         this.isChecked = dto.isActive();
     }
+    private Todo(int id) {
+        this.id = id;
+    }
+    public static Todo fromId(int id) {
+        return new Todo(id);
+    }
+
 
 }

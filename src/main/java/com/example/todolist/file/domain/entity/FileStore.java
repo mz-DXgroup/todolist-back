@@ -25,17 +25,15 @@ public class FileStore extends AuditingEntity {
 
     private String contentType;
 
-    private Integer todoId;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "todo_id")
     private Todo todo;
 
-    public FileStore(String origFilename, String filename, String contentType, String filePath, Integer todoId) {
+    public FileStore(String origFilename, String filename, String contentType, String filePath, Todo todo) {
         this.origFilename = origFilename;
         this.filename = filename;
         this.contentType = contentType;
         this.filePath = filePath;
-        this.todoId = todoId;
+        this.todo = todo;
     }
 }

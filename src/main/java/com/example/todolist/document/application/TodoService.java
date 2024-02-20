@@ -14,6 +14,7 @@ import com.example.todolist.document.domain.entity.Period;
 import com.example.todolist.document.domain.entity.Todo;
 import com.example.todolist.document.domain.port.repository.DocumentRepository;
 import com.example.todolist.document.domain.port.repository.TodoRepository;
+import com.example.todolist.file.domain.port.repository.FileStoreRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -30,9 +31,12 @@ public class TodoService {
     private final TodoRepository todoRepository;
     private final DocumentRepository documentRepository;
 
-    public TodoService(TodoRepository todoRepository, DocumentRepository documentRepository) {
+    private final FileStoreRepository fileStoreRepository;
+
+    public TodoService(TodoRepository todoRepository, DocumentRepository documentRepository, FileStoreRepository fileStoreRepository) {
         this.todoRepository = todoRepository;
         this.documentRepository = documentRepository;
+        this.fileStoreRepository = fileStoreRepository;
     }
 
     public Integer createTodo(TodoRequest todoRequest) {
@@ -92,7 +96,8 @@ public class TodoService {
     }
 
     private static boolean isTodoWithinRange(Period todoPeriod, Period documentPeriod) {
-        return todoPeriod.startDate().isAfter(documentPeriod.startDate()) && todoPeriod.endDate().isBefore(documentPeriod.endDate());
+        return todoPeriod.startDate().isAfter(documentPeriod.startDate()) || todoPeriod.startDate().isEqual(documentPeriod.startDate())
+                && todoPeriod.endDate().isBefore(documentPeriod.endDate()) || todoPeriod.endDate().isEqual(documentPeriod.endDate());
     }
 
 }
