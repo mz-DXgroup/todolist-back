@@ -52,13 +52,5 @@ public class Todo extends AuditingEntity {
         this.period = dto.period();
         this.isChecked = dto.isActive();
     }
-//    private void periodValidate(Period period, Document document) {
-//        if (document.getPeriod().startDate().isBefore(period.startDate())) {
-//            throw new IllegalArgumentException("기간을 확인해 주세요");
-//        }
-//        if (document.getPeriod().endDate().isBefore(period.endDate())) {
-//            throw new IllegalArgumentException("기간을 확인해 주세요");
-//        }
-//    }
 
 }

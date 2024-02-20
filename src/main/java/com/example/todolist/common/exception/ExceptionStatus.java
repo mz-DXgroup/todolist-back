@@ -22,6 +22,7 @@ public enum ExceptionStatus {
     TITLE_NAME_DUPLICATE(409, "이미 있는 제목입니다.");
 
 
+
     private final int statusCode;
     private final String message;
 }
