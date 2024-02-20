@@ -38,8 +38,8 @@
         </div>
       </div>
     </div>
-    <input type="file" name="photo" id="photo" />
-    <button @click="showCheckPopup" class="btn btn-danger ms-3">전체 삭제</button>
+    <button @click="showCheckPopup" class="btn btn-danger ms-3">Document 전체 삭제</button>
+    <!-- <button @click="removeTodoAll" class="btn btn-danger me-3 ms-3">Todo 전체 삭제</button> -->
     <FormModal v-if="showCheckModal" @close="showCheckModal = false">
       <template #header>
         <p>※주의</p>
@@ -141,6 +141,13 @@ export default {
           this.$router.go(this.$router.currentRoute);
         });
     },
+    // removeTodoAll() {
+    //   axios
+    //     .delete("http://localhost:8090/api/todo/all")
+    //     .then(() => {
+    //       this.$router.go(this.$router.currentRoute);
+    //     });
+    // },
   },
   
   components: {
