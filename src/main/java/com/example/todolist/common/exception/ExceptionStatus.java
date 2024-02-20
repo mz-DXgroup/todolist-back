@@ -15,7 +15,10 @@ public enum ExceptionStatus {
     REQUEST_IS_EMPTY(404, "요청이 존재하지 않습니다."),
     PAGE_IS_NOT_EXIST(404, "요청하신 페이지 내역이 존재하지 않습니다."),
     USERNAME_IS_EXIST(409, "이미 등록된 정보입니다."),
-    FILE_NOT_FOUND(404,"파일을 찾을 수 없습니다");
+    FILE_NOT_FOUND(404, "파일을 찾을 수 없습니다"),
+    TITLE_LENGTH_OVER(400, "제목이 없거나, 50글자를 초과 할 수 없습니다."),
+    DESC_LENGTH_OVER(400, "설명이 없거나,  200글자를 초과 할 수 없습니다."),
+    PERIOD_NOT_MATCH(400, "시작시간과 끝나는 시간을 확인해주세요");
 
 
     private final int statusCode;
