@@ -1,6 +1,7 @@
-package com.example.todolist.document.domain.entity;
+package com.example.todolist.file.domain.entity;
 
 import com.example.todolist.common.domain.entity.AuditingEntity;
+import com.example.todolist.document.domain.entity.Todo;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

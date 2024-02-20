@@ -1,6 +1,6 @@
-package com.example.todolist.document.application.dto.response;
+package com.example.todolist.file.application.response;
 
-import com.example.todolist.document.domain.entity.FileStore;
+import com.example.todolist.file.domain.entity.FileStore;
 import lombok.Builder;
 
 @Builder

@@ -4,6 +4,7 @@ import com.example.todolist.document.application.dto.request.TodoRequest;
 import com.example.todolist.document.application.dto.request.TodoUpdateRequest;
 import com.example.todolist.document.application.dto.response.TodoDetailResponse;
 import com.example.todolist.document.application.dto.response.TodoResponse;
+import com.example.todolist.document.domain.dto.TodoDto;
 import com.example.todolist.document.domain.entity.Todo;
 import com.example.todolist.document.domain.port.repository.TodoRepository;
 import jakarta.transaction.Transactional;
@@ -45,7 +46,7 @@ public class TodoService {
     }
 
     public void updateTodo(Integer id, TodoUpdateRequest request) {
-        var dto = request.toDto();
+        TodoDto dto = request.toDto();
         Todo todo = todoRepository.findById(id).orElseThrow(() -> new IllegalArgumentException(id + " 찾을 수 없습니다"));
         todo.update(dto);
     }
