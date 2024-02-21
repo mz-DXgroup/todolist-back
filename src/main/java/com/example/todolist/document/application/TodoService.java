@@ -92,7 +92,7 @@ public class TodoService {
     }
 
     private static boolean isTodayWithinRange(LocalDate now, LocalDate startDate, LocalDate endDate) {
-        return now.isEqual(startDate) || (now.isAfter(startDate) && now.isBefore(endDate));
+        return now.isEqual(startDate) || now.isEqual(endDate)|| (now.isAfter(startDate) && now.isBefore(endDate));
     }
 
     private static boolean isTodoWithinRange(Period todoPeriod, Period documentPeriod) {
