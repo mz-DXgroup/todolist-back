@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 import java.security.Key;
 import java.util.Collections;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
@@ -80,12 +79,12 @@ public class JwtTokenProvider {
         }
     }
 
-    public Date getTokenExpiryFromJWT(String token) {
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token).getBody();
-
-        return claims.getExpiration();
-    }
+//    public Date getTokenExpiryFromJWT(String token) {
+//        Claims claims = Jwts.parserBuilder()
+//                .setSigningKey(key)
+//                .build()
+//                .parseClaimsJws(token).getBody();
+//
+//        return claims.getExpiration();
+//    }
 }
