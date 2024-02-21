@@ -3,7 +3,6 @@ package com.example.todolist.common.jwt;
 import com.example.todolist.member.domain.dto.MemberDto;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.jackson.io.JacksonDeserializer;
-import io.jsonwebtoken.lang.Maps;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -12,6 +11,7 @@ import org.springframework.stereotype.Component;
 
 import java.security.Key;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Map;
 
 @Slf4j
@@ -47,10 +47,13 @@ public class JwtTokenProvider {
         try {
             MemberDto memberDto = null;
             if (jws != null) {
-                Claims claims = Jwts.parserBuilder().deserializeJsonWith(new JacksonDeserializer(Maps.of("user", MemberDto.class).build()))
+
+                Map<String, Class> classMap = new HashMap<>();
+                classMap.put("user", MemberDto.class);
+
+                Claims claims = Jwts.parserBuilder().deserializeJsonWith(new JacksonDeserializer<>(classMap))
                         .setSigningKey(key).build().parseClaimsJws(jws).getBody();
 
-                //log.info("::::::::::::: Maps - {}", Maps.of("user", MemberDto.class).build());
                 log.info("::::::::::::: claims - {}", claims);
                 log.info("::::::::::::: user - {}", claims.get("user"));
 
