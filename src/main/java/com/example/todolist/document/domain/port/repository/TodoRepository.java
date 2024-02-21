@@ -1,4 +1,4 @@
-package com.example.todolist.document.domain.repository;
+package com.example.todolist.document.domain.port.repository;
 
 import com.example.todolist.document.domain.entity.Todo;
 import org.springframework.data.jpa.repository.JpaRepository;

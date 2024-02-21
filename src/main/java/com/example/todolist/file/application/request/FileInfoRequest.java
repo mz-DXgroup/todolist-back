@@ -1,4 +1,4 @@
-package com.example.todolist.document.application.dto.request;
+package com.example.todolist.file.application.request;
 
 public class FileInfoRequest {
 

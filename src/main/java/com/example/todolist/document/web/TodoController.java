@@ -5,6 +5,8 @@ import com.example.todolist.document.application.dto.response.TodoDetailResponse
 import com.example.todolist.document.application.dto.request.TodoRequest;
 import com.example.todolist.document.application.dto.response.TodoResponse;
 import com.example.todolist.document.application.dto.request.TodoUpdateRequest;
+import com.example.todolist.document.application.dto.response.TodoTodayResponse;
+import com.example.todolist.document.domain.entity.Todo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -13,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RequestMapping("/api")
 @RestController
@@ -37,6 +40,11 @@ public class TodoController {
     @GetMapping("/todo/{todoId}")
     public ResponseEntity<TodoDetailResponse> getTodo(@PathVariable Integer todoId) {
         return ResponseEntity.ok(todoService.getTodo(todoId));
+    }
+
+    @GetMapping("/todo/today/{userId}")
+    public ResponseEntity<List<TodoTodayResponse>> getTodoToday(@PathVariable Integer userId) {
+        return ResponseEntity.ok(todoService.getTodoToday(userId));
     }
 
     @PutMapping("/todo/{todoId}")

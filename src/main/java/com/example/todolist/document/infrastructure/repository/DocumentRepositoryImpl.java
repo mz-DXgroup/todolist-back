@@ -1,7 +1,7 @@
-package com.example.todolist.document.domain.repository.repositoryImpl;
+package com.example.todolist.document.infrastructure.repository;
 
 import com.example.todolist.document.domain.entity.Document;
-import com.example.todolist.document.domain.repository.DocumentRepositoryCustom;
+import com.example.todolist.document.domain.port.repository.DocumentRepositoryCustom;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
