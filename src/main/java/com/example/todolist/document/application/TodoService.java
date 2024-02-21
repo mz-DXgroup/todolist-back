@@ -79,8 +79,9 @@ public class TodoService {
         todoRepository.deleteById(todoId);
     }
 
-    public void deleteTodoAll() {
-        todoRepository.deleteAll();
+    public void deleteTodoAll(Integer documentId) {
+        fileStoreRepository.deleteMapping(documentId);
+        todoRepository.deleteAll(documentId);
     }
 
     public List<TodoTodayResponse> getTodoToday(Integer userId) {

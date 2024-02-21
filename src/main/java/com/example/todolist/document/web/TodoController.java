@@ -59,9 +59,9 @@ public class TodoController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/todo/all")
-    public ResponseEntity<Void> deleteTodoAll() {
-        todoService.deleteTodoAll();
+    @DeleteMapping("/todo/all/{documentId}")
+    public ResponseEntity<Void> deleteTodoAll(@PathVariable("documentId") Integer documentId) {
+        todoService.deleteTodoAll(documentId);
         return ResponseEntity.ok().build();
     }
 }
