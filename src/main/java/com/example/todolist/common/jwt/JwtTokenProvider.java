@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
@@ -48,8 +49,7 @@ public class JwtTokenProvider {
             MemberDto memberDto = null;
             if (jws != null) {
 
-                Map<String, Class> classMap = new HashMap<>();
-                classMap.put("user", MemberDto.class);
+                Map<String, Class> classMap = Collections.singletonMap("user", MemberDto.class);
 
                 Claims claims = Jwts.parserBuilder().deserializeJsonWith(new JacksonDeserializer<>(classMap))
                         .setSigningKey(key).build().parseClaimsJws(jws).getBody();
