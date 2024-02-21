@@ -69,7 +69,6 @@ public class FileService {
     }
 
 
-
     private String generateUniqueFileName(String originalFileName) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
         // Random 객체 생성
@@ -78,5 +77,9 @@ public class FileService {
         String randomNumber = Integer.toString(random.nextInt(Integer.MAX_VALUE));
         String timeStamp = dateFormat.format(new Date());
         return timeStamp + randomNumber + originalFileName;
+    }
+
+    public void deleteFile(Long fileId) {
+        fileStoreRepository.deleteById(fileId);
     }
 }
