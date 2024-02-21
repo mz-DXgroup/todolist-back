@@ -1,7 +1,7 @@
-package com.example.todolist.document.web;
+package com.example.todolist.file.web;
 
-import com.example.todolist.document.application.FileService;
-import com.example.todolist.document.application.dto.response.FileResponse;
+import com.example.todolist.file.application.FileService;
+import com.example.todolist.file.application.response.FileResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
@@ -50,12 +50,18 @@ public class FileController {
         Resource resource = new InputStreamResource(Files.newInputStream(path));
 
         // 파일 이름을 UTF-8에서 ISO-8859-1로 인코딩
-        String encodedFilename =URLEncoder.encode(fileDto.originalFilename(), "UTF-8");
+        String encodedFilename = URLEncoder.encode(fileDto.originalFilename(), "UTF-8");
 
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + encodedFilename)
                 .body(resource);
+    }
+
+    @DeleteMapping("/download/{fileId}")
+    public ResponseEntity<Void> findDelete(@PathVariable("fileId") Long fileId) {
+        fileservice.deleteFile(fileId);
+        return ResponseEntity.ok().build();
     }
 
 }

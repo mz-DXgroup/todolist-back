@@ -1,5 +1,7 @@
-package com.example.todolist.document.domain.entity;
+package com.example.todolist.file.domain.entity;
 
+import com.example.todolist.common.domain.entity.AuditingEntity;
+import com.example.todolist.document.domain.entity.Todo;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -9,7 +11,7 @@ import lombok.ToString;
 @Getter
 @ToString
 @Entity
-public class FileStore {
+public class FileStore extends AuditingEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,17 +25,15 @@ public class FileStore {
 
     private String contentType;
 
-    private Integer todoId;
-
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "todo_id")
     private Todo todo;
 
-    public FileStore(String origFilename, String filename, String contentType, String filePath, Integer todoId) {
+    public FileStore(String origFilename, String filename, String contentType, String filePath, Todo todo) {
         this.origFilename = origFilename;
         this.filename = filename;
         this.contentType = contentType;
         this.filePath = filePath;
-        this.todoId = todoId;
+        this.todo = todo;
     }
 }

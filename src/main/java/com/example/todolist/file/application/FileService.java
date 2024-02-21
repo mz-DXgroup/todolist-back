@@ -1,8 +1,11 @@
-package com.example.todolist.document.application;
+package com.example.todolist.file.application;
 
-import com.example.todolist.document.application.dto.response.FileResponse;
-import com.example.todolist.document.domain.entity.FileStore;
-import com.example.todolist.document.domain.repository.FileStoreRepository;
+import com.example.todolist.document.domain.entity.Todo;
+import com.example.todolist.document.domain.port.repository.TodoRepository;
+import com.example.todolist.file.application.response.FileResponse;
+import com.example.todolist.file.domain.entity.FileStore;
+import com.example.todolist.file.domain.port.repository.FileStoreRepository;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -21,7 +24,7 @@ import java.util.Random;
 public class FileService {
 
     private final FileStoreRepository fileStoreRepository;
-    private final String uploadDirectory = "C:\\otherGitClone";
+    private final TodoRepository todoRepository;
 
     @Transactional
     public void uploadFile(MultipartFile file, Integer todoId) {
@@ -29,10 +32,13 @@ public class FileService {
         String newFileName = generateUniqueFileName(originalFileName);
 
         // 저장할 파일 경로
+        String uploadDirectory = "C:\\otherGitClone";
         Path filePath = Paths.get(uploadDirectory, newFileName);
 
         // 파일 정보 저장
-        FileStore fileStore = new FileStore(newFileName, originalFileName, file.getContentType(), filePath.toString(), todoId);
+        Todo todo = todoRepository.findById(todoId)
+                .orElseThrow(() -> new EntityNotFoundException("Todo not found with id: " + todoId));
+        FileStore fileStore = new FileStore(newFileName, originalFileName, file.getContentType(), filePath.toString(), todo);
         fileStoreRepository.save(fileStore);
 
         // 서버 내부 스토리지에 업로드
@@ -49,7 +55,7 @@ public class FileService {
 
         return fileStoreRepository.findAll()
                 .stream()
-                .filter(i -> i.getTodoId().equals(todoId))
+                .filter(i -> i.getTodo().getId().equals(todoId))
                 .map(FileResponse::from).findFirst().orElseThrow(() -> new IllegalArgumentException("파일이 존재하지 않습니다."));   //todo 파일 여러개 일 경우 변경 필요
     }
 
@@ -68,7 +74,6 @@ public class FileService {
     }
 
 
-
     private String generateUniqueFileName(String originalFileName) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyyMMddHHmmss");
         // Random 객체 생성
@@ -77,5 +82,9 @@ public class FileService {
         String randomNumber = Integer.toString(random.nextInt(Integer.MAX_VALUE));
         String timeStamp = dateFormat.format(new Date());
         return timeStamp + randomNumber + originalFileName;
+    }
+
+    public void deleteFile(Long fileId) {
+        fileStoreRepository.deleteById(fileId);
     }
 }

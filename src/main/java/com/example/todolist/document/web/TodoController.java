@@ -5,6 +5,8 @@ import com.example.todolist.document.application.dto.response.TodoDetailResponse
 import com.example.todolist.document.application.dto.request.TodoRequest;
 import com.example.todolist.document.application.dto.response.TodoResponse;
 import com.example.todolist.document.application.dto.request.TodoUpdateRequest;
+import com.example.todolist.document.application.dto.response.TodoTodayResponse;
+import com.example.todolist.document.domain.entity.Todo;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -13,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.net.URI;
+import java.util.List;
 
 @RequestMapping("/api")
 @RestController
@@ -39,6 +42,11 @@ public class TodoController {
         return ResponseEntity.ok(todoService.getTodo(todoId));
     }
 
+    @GetMapping("/todo/today/{userId}")
+    public ResponseEntity<List<TodoTodayResponse>> getTodoToday(@PathVariable Integer userId) {
+        return ResponseEntity.ok(todoService.getTodoToday(userId));
+    }
+
     @PutMapping("/todo/{todoId}")
     public ResponseEntity<Void> updateTodo(@PathVariable Integer todoId, @RequestBody TodoUpdateRequest todoUpdateReqeust) {
         todoService.updateTodo(todoId, todoUpdateReqeust);
@@ -51,9 +59,9 @@ public class TodoController {
         return ResponseEntity.ok().build();
     }
 
-    @DeleteMapping("/todo/all")
-    public ResponseEntity<Void> deleteTodoAll() {
-        todoService.deleteTodoAll();
+    @DeleteMapping("/todo/all/{documentId}")
+    public ResponseEntity<Void> deleteTodoAll(@PathVariable("documentId") Integer documentId) {
+        todoService.deleteTodoAll(documentId);
         return ResponseEntity.ok().build();
     }
 }

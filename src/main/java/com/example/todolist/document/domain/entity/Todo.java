@@ -2,11 +2,13 @@ package com.example.todolist.document.domain.entity;
 
 import com.example.todolist.common.domain.entity.AuditingEntity;
 import com.example.todolist.document.domain.dto.TodoDto;
+import com.example.todolist.file.domain.entity.FileStore;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.management.relation.Relation;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,7 +35,7 @@ public class Todo extends AuditingEntity {
     private Document document;
 
     @Setter
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "todo")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "todo",orphanRemoval = true)
     private List<FileStore> fileStores = new ArrayList<>();
 
     public Todo(String todo, String description, Period period, boolean isChecked, Document document) {
@@ -51,13 +53,12 @@ public class Todo extends AuditingEntity {
         this.period = dto.period();
         this.isChecked = dto.isActive();
     }
-//    private void periodValidate(Period period, Document document) {
-//        if (document.getPeriod().startDate().isBefore(period.startDate())) {
-//            throw new IllegalArgumentException("기간을 확인해 주세요");
-//        }
-//        if (document.getPeriod().endDate().isBefore(period.endDate())) {
-//            throw new IllegalArgumentException("기간을 확인해 주세요");
-//        }
-//    }
+    private Todo(int id) {
+        this.id = id;
+    }
+    public static Todo fromId(int id) {
+        return new Todo(id);
+    }
+
 
 }

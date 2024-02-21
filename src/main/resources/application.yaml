@@ -1,5 +1,5 @@
 server:
-  port : 8090
+  port: 8090
 
 spring:
   h2:
@@ -13,16 +13,21 @@ spring:
     username: sa
     password:
 
-#spring:
-#  datasource:
-#    driver-class-name: com.mysql.cj.jdbc.Driver
-#    url: jdbc:mysql://localhost:3306/testcontainer?serverTimezone=Asia/Seoul
-#    username: root
-#    password: 1234
+
+  servlet:
+    multipart:
+      max-file-size: 1MB
+      max-request-size: 1MB
+  #spring:
+  #  datasource:
+  #    driver-class-name: com.mysql.cj.jdbc.Driver
+  #    url: jdbc:mysql://localhost:3306/testcontainer?serverTimezone=Asia/SeoulZ
+  #    username: root
+  #    password: 1234
 
   jpa:
     hibernate:
-      ddl-auto: update  # 애플리케이션 실행 시 JPA가 DDL을 자동으로 생성하도록 설정 (개발 중에만 사용)
+      ddl-auto: update
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true  # Hibernate가 생성하는 SQL을 로그로 출력
