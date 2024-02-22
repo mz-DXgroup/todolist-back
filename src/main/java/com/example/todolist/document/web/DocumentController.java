@@ -6,6 +6,7 @@ import com.example.todolist.document.application.dto.request.DocumentRequest;
 import com.example.todolist.document.application.dto.request.DocumentUpdateRequest;
 import com.example.todolist.document.application.dto.response.DocumentDetailResponse;
 import com.example.todolist.document.application.dto.response.DocumentResponse;
+import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -33,9 +34,9 @@ public class DocumentController {
         return ResponseEntity.created(URI.create("/api/documents/" + id)).build();
     }
 
-    @GetMapping("/documents")
-    public ResponseEntity<Page<DocumentResponse>> getDocuments(@PageableDefault(size = 20, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
-        return ResponseEntity.ok(documentService.getDocuments(pageable));
+    @GetMapping("/documents/documents/{userId}")
+    public ResponseEntity<Page<DocumentResponse>> getDocuments(@PathVariable Integer userId, @PageableDefault(size = 20, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
+        return ResponseEntity.ok(documentService.getDocuments(userId,pageable));
     }
 
     @GetMapping("/documents/{documentId}")

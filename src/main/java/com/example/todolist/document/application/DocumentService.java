@@ -37,8 +37,8 @@ public class DocumentService {
     }
 
     @Transactional(readOnly = true)
-    public Page<DocumentResponse> getDocuments(Pageable pageable) {
-        return documentRepository.findAllBy(pageable).map(DocumentResponse::from);
+    public Page<DocumentResponse> getDocuments(Integer userId, Pageable pageable) {
+        return  documentRepository.findAllBy(userId, pageable).map(DocumentResponse::from);
     }
 
     @Transactional(readOnly = true)
