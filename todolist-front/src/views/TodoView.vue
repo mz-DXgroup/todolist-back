@@ -12,25 +12,22 @@
             <ul>
               <li v-for="(fileResponse, fileIndex) in item.fileResponses" :key="fileIndex">
                 {{ fileResponse.fileName }}
-                <button @click="getFileDownload(index, fileIndex)" class="btn btn-primary">↓</button>
-                <button @click="removeFile(index, fileIndex)" class="btn btn-danger ms-1">삭제</button>
+                <button @click="getFileDownload(index, fileIndex)" class="btn btn-primary">
+                  ↓
+                </button>
+                <button @click="removeFile(index, fileIndex)" class="btn btn-danger ms-1">
+                  삭제
+                </button>
               </li>
             </ul>
           </div>
 
-          <input
-            type="file"
-            @change="handleFileUpload(index, $event)"
-            class="mt-2"
-          />
+          <input type="file" @change="handleFileUpload(index, $event)" class="mt-2" />
           <br />
           <button @click="finishTodo(index)" class="btn btn-primary mt-3 me-1">
             완료
           </button>
-          <button
-            @click="toggleTodoEditMode(index)"
-            class="btn btn-primary mt-3"
-          >
+          <button @click="toggleTodoEditMode(index)" class="btn btn-primary mt-3">
             수정
           </button>
           <button @click="removeTodo(index)" class="btn btn-danger mt-3 ms-1">
@@ -52,17 +49,22 @@
       </div>
     </div>
     <div>
-      <button @click="showTodoPopup" class="btn btn-danger mt-2 ms-3">전체 삭제</button> <br />
+      <button @click="showTodoPopup" class="btn btn-danger mt-2 ms-3">
+        전체 삭제
+      </button>
+      <br />
       <router-link :to="{ name: 'home' }" class="router-link ms-2">home</router-link>
     </div>
     <FormModal v-if="showTodoModal" @close="showTodoModal = false">
       <template #header>
-        <p>확인</p>
+        <p>※주의</p>
+      </template>
+      <template #body>
+        <p>Document와 하위의 항목 모두 삭제하시겠습니까?</p>
+        <button @click="removeTodoAll" class="btn btn-primary">확인</button>
+        <button @click="showTodoPopup" class="btn btn-danger ms-1">취소</button>
       </template>
     </FormModal>
-    <div>
-      <!-- <button @click="removeTodoAll" class="btn btn-danger ms-2 mt-2">전체 삭제</button> -->
-    </div>
   </div>
 </template>
 
@@ -78,7 +80,7 @@ export default {
     const { id } = route.params;
     const todo = ref({});
     const filetest = ref({});
-    const showTodoModal = false;
+    const showTodoModal = ref(false);
     return { todo, id, filetest, showTodoModal };
   },
   mounted() {
@@ -123,22 +125,6 @@ export default {
     },
     saveTodoEdit(index) {
       const editedTodo = this.todo.content[index];
-      // if (!editedTodo.todo.trim() || !editedTodo.description.trim()) {
-      //   alert("제목과 설명을 입력해주세요.");
-      //   return;
-      // }
-      // if (editedTodo.todo > 50 || editedTodo.description > 200) {
-      //   alert("제목은 50글자 이내, 설명은 200글자 이내로 입력해주세요.");
-      //   return;
-      // }
-      // if (!editedTodo.period.startDate || !editedTodo.period.endDate) {
-      //   alert("시작일과 종료일을 모두 입력해주세요.");
-      //   return;
-      // }
-      // if (editedTodo.period.startDate > editedTodo.period.endDate) {
-      //   alert("시작일이 종료일보다 클 수 없습니다.");
-      //   return;
-      // }
 
       axios
         .put(`http://localhost:8090/api/todo/${editedTodo.todoId}`, editedTodo)
@@ -167,10 +153,9 @@ export default {
         });
     },
     removeTodoAll() {
-      axios
-        .delete(`http://localhost:8090/api/todo/all/${this.id}`).then(() => {
-          console.log(this.id);
-        })
+      axios.delete(`http://localhost:8090/api/todo/all/${this.id}`).then(() => {
+        console.log(this.id);
+      });
     },
     finishTodo(index) {
       const todoToFinish = this.todo.content[index];
