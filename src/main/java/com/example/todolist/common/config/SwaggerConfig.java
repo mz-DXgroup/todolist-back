@@ -8,7 +8,7 @@ import io.swagger.v3.oas.models.security.SecurityScheme;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import java.util.Arrays;
+import java.util.Collections;
 
 @Configuration
 public class SwaggerConfig {
@@ -30,7 +30,7 @@ public class SwaggerConfig {
         return new OpenAPI()
                 .components(new Components()
                         .addSecuritySchemes("jwt", jwtSecurityScheme))
-                .security(Arrays.asList(securityRequirement))
+                .security(Collections.singletonList(securityRequirement))
                 .info(info);
     }
 }

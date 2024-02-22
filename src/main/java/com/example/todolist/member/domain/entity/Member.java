@@ -63,8 +63,4 @@ public class Member extends AuditingEntity {
         this.roles = role;
 
     }
-
-    public MemberDto memberDto() {
-        return new MemberDto(userId, name, email, roles, false);
-    }
 }

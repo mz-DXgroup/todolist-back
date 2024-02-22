@@ -7,6 +7,7 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
@@ -20,23 +21,23 @@ import java.util.List;
 @Slf4j
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
-    private JwtTokenProvider jwtTokenProvider;
-    private List<AntPathRequestMatcher> aprm;
+    private final JwtTokenProvider jwtTokenProvider;
+    private final List<AntPathRequestMatcher> apr;
 
     public JwtAuthenticationFilter(JwtTokenProvider jwtTokenProvider) {
         this.jwtTokenProvider = jwtTokenProvider;
-        this.aprm = new ArrayList<>();
+        this.apr = new ArrayList<>();
         for(String url: SecurityConfig.ALLOWS_URLS) {
-            aprm.add(new AntPathRequestMatcher(url));
+            apr.add(new AntPathRequestMatcher(url));
         }
     }
 
     @Override
-    protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
+    protected void doFilterInternal(@NonNull HttpServletRequest request, @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
             throws ServletException, IOException {
 
-        log.info("allowed url - {}", aprm.toString());
-        if(aprm.stream().noneMatch(a -> {
+        log.info("allowed url - {}", apr.toString());
+        if(apr.stream().noneMatch(a -> {
             log.trace("{} - {} : {}", a.getPattern(), request.getRequestURI(), a.matches(request));
             return a.matches(request);
         })) {
@@ -57,7 +58,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     }
 
     private String getJwtFromRequest(HttpServletRequest request) {
-        String bearerToken = request.getHeader("Authorization");
-        return bearerToken;
+        return request.getHeader("Authorization");
     }
 }

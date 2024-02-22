@@ -3,7 +3,6 @@ package com.example.todolist.common.jwt;
 import com.example.todolist.member.domain.dto.MemberDto;
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.jackson.io.JacksonDeserializer;
-import io.jsonwebtoken.lang.Maps;
 import io.jsonwebtoken.security.Keys;
 import jakarta.annotation.PostConstruct;
 import lombok.RequiredArgsConstructor;
@@ -11,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 
 import java.security.Key;
+import java.util.Collections;
 import java.util.Date;
 import java.util.Map;
 
@@ -47,10 +47,12 @@ public class JwtTokenProvider {
         try {
             MemberDto memberDto = null;
             if (jws != null) {
-                Claims claims = Jwts.parserBuilder().deserializeJsonWith(new JacksonDeserializer(Maps.of("user", MemberDto.class).build()))
+
+                Map<String, Class> classMap = Collections.singletonMap("user", MemberDto.class);
+
+                Claims claims = Jwts.parserBuilder().deserializeJsonWith(new JacksonDeserializer<>(classMap))
                         .setSigningKey(key).build().parseClaimsJws(jws).getBody();
 
-                //log.info("::::::::::::: Maps - {}", Maps.of("user", MemberDto.class).build());
                 log.info("::::::::::::: claims - {}", claims);
                 log.info("::::::::::::: user - {}", claims.get("user"));
 
@@ -77,12 +79,12 @@ public class JwtTokenProvider {
         }
     }
 
-    public Date getTokenExpiryFromJWT(String token) {
-        Claims claims = Jwts.parserBuilder()
-                .setSigningKey(key)
-                .build()
-                .parseClaimsJws(token).getBody();
-
-        return claims.getExpiration();
-    }
+//    public Date getTokenExpiryFromJWT(String token) {
+//        Claims claims = Jwts.parserBuilder()
+//                .setSigningKey(key)
+//                .build()
+//                .parseClaimsJws(token).getBody();
+//
+//        return claims.getExpiration();
+//    }
 }

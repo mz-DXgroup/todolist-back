@@ -37,7 +37,7 @@ public class SecurityConfig {
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
-    public static final String[] ALLOWS_URLS = {"/", "/v3/api-docs/**", "/swagger-ui**", "/swagger-ui/**", "/h2-console/**", "/login", "/api/login", "/api/join"};
+    public static final String[] ALLOWS_URLS = {"/", "/v3/api-docs/**", "/swagger-ui**", "/swagger-ui/**", "/h2-console/**", "/favicon.ico", "/login", "/api/login", "/api/join"};
 
     public static final String[] AUTH_ALL = {"/api/**"};
 
