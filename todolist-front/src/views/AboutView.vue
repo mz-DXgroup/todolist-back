@@ -66,7 +66,7 @@
   </button>
 
   <hr />
-  <div v-if="isAdd">
+  <div v-if="isAdd" class="ms-3 mb-2">
     <label>제목</label>
     <input
       type="text"
@@ -169,12 +169,14 @@ export default {
       const editedEndDate = this.period.editedEndDate;
       // 제목과 설명 null값 체크
       if (!editedTitle || !editedDescription) {
+        console.log(editedDescription)
         alert("제목과 설명을 입력해주세요.");
         return;
       }
       // 제목과 설명 글자수 제한
       if (editedTitle.length > 50 || editedDescription.length > 200) {
         alert("제목은 50글자 이내, 설명은 200글자 이내로 입력해주세요.");
+        return;
       }
       // 시작일과 종료일 null값 체크
       if (!editedStartDate || !editedEndDate) {
@@ -239,6 +241,14 @@ export default {
       }
       if (this.period.startDate > this.period.endDate) {
         alert("시작일이 종료일보다 클 수 없습니다.");
+        return;
+      }
+      if (this.period.startDate < this.detailInfo.period.startDate) {
+        alert("해당 Document의 시작일과 종료일을 확인하세요.");
+        return;
+      }
+      if (this.period.endDate > this.detailInfo.period.endDate) {
+        alert("해당 Document의 시작일과 종료일을 확인하세요.");
         return;
       }
       const data = {
