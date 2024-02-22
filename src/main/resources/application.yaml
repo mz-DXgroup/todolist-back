@@ -13,10 +13,15 @@ spring:
     username: sa
     password:
 
+
+  servlet:
+    multipart:
+      max-file-size: 1MB
+      max-request-size: 1MB
   #spring:
   #  datasource:
   #    driver-class-name: com.mysql.cj.jdbc.Driver
-  #    url: jdbc:mysql://localhost:3306/testcontainer?serverTimezone=Asia/Seoul
+  #    url: jdbc:mysql://localhost:3306/testcontainer?serverTimezone=Asia/SeoulZ
   #    username: root
   #    password: 1234
 

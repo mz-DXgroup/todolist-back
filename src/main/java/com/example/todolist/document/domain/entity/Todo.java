@@ -35,7 +35,7 @@ public class Todo extends AuditingEntity {
     private Document document;
 
     @Setter
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "todo")
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "todo",orphanRemoval = true)
     private List<FileStore> fileStores = new ArrayList<>();
 
     public Todo(String todo, String description, Period period, boolean isChecked, Document document) {

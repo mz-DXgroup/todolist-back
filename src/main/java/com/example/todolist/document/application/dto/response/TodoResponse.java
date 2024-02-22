@@ -2,10 +2,8 @@ package com.example.todolist.document.application.dto.response;
 
 import com.example.todolist.document.domain.entity.Period;
 import com.example.todolist.document.domain.entity.Todo;
-import com.example.todolist.file.domain.entity.FileStore;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public record TodoResponse(
         Integer todoId,
@@ -14,7 +12,7 @@ public record TodoResponse(
         String description,
         Period period,
         boolean isChecked,
-        List<String> fileName
+        List<FileResponse> fileResponses
 ) {
     public static TodoResponse from(Todo entity) {
         return new TodoResponse(
@@ -24,9 +22,19 @@ public record TodoResponse(
                 entity.getDescription(),
                 entity.getPeriod(),
                 entity.isChecked(),
-                entity.getFileStores().stream()
-                        .map(FileStore::getOrigFilename)
-                        .toList()
+                entity.getFileStores().stream().map(fileStore -> FileResponse.from(fileStore.getOrigFilename(), fileStore.getId())).toList()
+
         );
+    }
+
+    public record FileResponse(
+            String fileName,
+            Long fileId
+    ) {
+
+        public static FileResponse from(String fileName, Long fileId) {
+            return new FileResponse(fileName, fileId);
+
+        }
     }
 }

@@ -79,8 +79,9 @@ public class TodoService {
         todoRepository.deleteById(todoId);
     }
 
-    public void deleteTodoAll() {
-        todoRepository.deleteAll();
+    public void deleteTodoAll(Integer documentId) {
+        fileStoreRepository.deleteMapping(documentId);
+        todoRepository.deleteAll(documentId);
     }
 
     public List<TodoTodayResponse> getTodoToday(Integer userId) {
@@ -92,7 +93,7 @@ public class TodoService {
     }
 
     private static boolean isTodayWithinRange(LocalDate now, LocalDate startDate, LocalDate endDate) {
-        return now.isEqual(startDate) || (now.isAfter(startDate) && now.isBefore(endDate));
+        return now.isEqual(startDate) || now.isEqual(endDate)|| (now.isAfter(startDate) && now.isBefore(endDate));
     }
 
     private static boolean isTodoWithinRange(Period todoPeriod, Period documentPeriod) {

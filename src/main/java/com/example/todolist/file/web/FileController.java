@@ -50,12 +50,18 @@ public class FileController {
         Resource resource = new InputStreamResource(Files.newInputStream(path));
 
         // 파일 이름을 UTF-8에서 ISO-8859-1로 인코딩
-        String encodedFilename =URLEncoder.encode(fileDto.originalFilename(), "UTF-8");
+        String encodedFilename = URLEncoder.encode(fileDto.originalFilename(), "UTF-8");
 
         return ResponseEntity.ok()
                 .contentType(MediaType.APPLICATION_OCTET_STREAM)
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=" + encodedFilename)
                 .body(resource);
+    }
+
+    @DeleteMapping("/download/{fileId}")
+    public ResponseEntity<Void> findDelete(@PathVariable("fileId") Long fileId) {
+        fileservice.deleteFile(fileId);
+        return ResponseEntity.ok().build();
     }
 
 }
