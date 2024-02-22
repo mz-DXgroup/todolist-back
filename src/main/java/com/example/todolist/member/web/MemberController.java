@@ -12,7 +12,6 @@ import java.security.Principal;
 @RestController
 public class MemberController {
 
-
     @GetMapping("/members")
     public ResponseEntity<MemberResponse> getMember(Principal principal) {
         return ResponseEntity.ok(MemberResponse.from(principal));

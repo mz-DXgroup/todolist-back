@@ -6,14 +6,18 @@ import com.example.todolist.member.domain.dto.MemberDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 @NoArgsConstructor
 @Getter
 @Entity
-public class Member extends AuditingEntity {
+public class Member extends AuditingEntity implements UserDetails {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -61,6 +65,43 @@ public class Member extends AuditingEntity {
         this.userId = userId;
         this.pw = pw;
         this.roles = role;
+    }
+    public void passwordEncode(PasswordEncoder passwordEncoder) {
+        this.pw = passwordEncoder.encode(pw);
+    }
 
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return null;
+    }
+
+    @Override
+    public String getPassword() {
+        return pw;
+    }
+
+    @Override
+    public String getUsername() {
+        return name;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return false;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return false;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return false;
     }
 }
