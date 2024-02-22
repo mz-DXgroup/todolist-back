@@ -85,7 +85,14 @@ export default {
   },
   methods: {
     getDocument() {
-      axios.get("http://localhost:8090/api/documents").then((res) => {
+      const token = window.localStorage.getItem("token");
+      console.log(token);
+      axios.get("http://localhost:8090/api/documents", {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token,
+        },
+      }).then((res) => {
         this.document = res.data; // 객체로 저장
         console.log(this.document.content);
       });
@@ -130,27 +137,41 @@ export default {
         description: this.dDescription,
         memberId: "1",
       };
+      const token = window.localStorage.getItem("token");
       axios
-        .post("http://localhost:8090/api/documents", data, {
+        .post("http://localhost:8090/api/documents", data, { 
           headers: {
             "Content-Type": "application/json",
+            "Authorization": token,
           },
         })
-        .then((response) => {
-          console.log(response, this.period.startDate, this.period.endDate);
+        .then((response) => { 
+          console.log(response);
         });
 
       this.showModal = !this.showModal;
       this.$router.go(this.$router.currentRoute);
     },
     removeAll() {
-      axios.delete("http://localhost:8090/api/documents/all").then(() => {
+      const token = window.localStorage.getItem("token");
+      axios.delete("http://localhost:8090/api/documents/all", {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token,
+        }
+      }).then(() => {
         this.showCheckModal = !this.showCheckModal;
         this.$router.go(this.$router.currentRoute);
       });
     },
     todayTodo() {
-      axios.get("http://localhost:8090/api/todo/today/1").then((res) => {
+      const token = window.localStorage.getItem("token");
+      axios.get("http://localhost:8090/api/todo/today/1", {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token,
+        }
+      }).then((res) => {
         this.todayData = res.data;
         console.log("확인", this.todayData);
       });
