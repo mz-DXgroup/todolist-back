@@ -1,6 +1,5 @@
 package com.example.todolist.member.application;
 
-import com.example.todolist.common.jwt.JwtDto;
 import com.example.todolist.common.jwt.JwtTokenProvider;
 import com.example.todolist.common.exception.CustomException;
 import com.example.todolist.common.exception.ExceptionStatus;
@@ -43,7 +42,7 @@ public class LoginService {
                 .filter(i -> passwordEncoder.matches(request.pw(), i.getPw())) // 입력된 비밀번호가 저장된 암호화된 비밀번호와 일치하는지 확인
                 .orElseThrow(() -> new CustomException(ExceptionStatus.LOGIN_INFO_DO_NOT_MATCH));
 
-        JwtDto jwt = jwtTokenProvider.issue(MemberDto.from(member));
+        String jwt = jwtTokenProvider.issue(MemberDto.from(member));
 
         return new MemberLoginResponse(member.getUserId(), member.getRoles(), jwt);
     }
