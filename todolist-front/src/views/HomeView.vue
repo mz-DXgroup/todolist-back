@@ -74,29 +74,57 @@ export default {
       },
       dTitle: "",
       dDescription: "",
+      memberId: "",
       document: null, // 객체로 초기화
       showModal: false,
       showCheckModal: false,
       todayData: null,
+      userId: "",
     };
   },
   mounted() {
     this.getDocument();
   },
   methods: {
+    // getDocument() {
+    //   const token = window.localStorage.getItem("token");
+    //   const userId = window.localStorage.getItem("userId");
+    //   console.log(token);
+    //   console.log(userId);
+    //   axios.get(`http://localhost:8090/api/documents/documents/${userId}`, {
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //       "Authorization": token,
+    //     },
+    //   }).then((res) => {
+    //     this.document = res.data; // 객체로 저장
+    //     console.log(this.document.content);
+    //   });
+    // },
     getDocument() {
-      const token = window.localStorage.getItem("token");
-      console.log(token);
-      axios.get("http://localhost:8090/api/documents", {
-        headers: {
-          "Content-Type": "application/json",
-          "Authorization": token,
-        },
-      }).then((res) => {
-        this.document = res.data; // 객체로 저장
-        console.log(this.document.content);
-      });
+  const token = window.localStorage.getItem("token");
+  const userId = window.localStorage.getItem("userId");
+  console.log(token);
+  console.log(userId);
+
+  // 쿼리 매개변수 구성
+  const queryParams = new URLSearchParams({
+    page: 0,
+    size: 5,
+    sort: 'string'
+  });
+
+  axios.get(`http://localhost:8090/api/documents/documents/${userId}?${queryParams.toString()}`, {
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": token,
     },
+  }).then((res) => {
+    this.document = res.data; // 객체로 저장
+    console.log(this.document.content);
+  });
+},
+
     showPopup() {
       this.showModal = !this.showModal;
     },
@@ -128,6 +156,7 @@ export default {
         alert("동일한 제목이 이미 존재합니다. 다른 제목을 입력해주세요.");
         return;
       }
+      const dUserId = window.localStorage.getItem("userId");
       const data = {
         period: {
           startDate: this.period.startDate,
@@ -135,7 +164,7 @@ export default {
         },
         title: this.dTitle,
         description: this.dDescription,
-        memberId: "1",
+        userId: dUserId,
       };
       const token = window.localStorage.getItem("token");
       axios
@@ -147,10 +176,10 @@ export default {
         })
         .then((response) => { 
           console.log(response);
+          console.log("Post 성공");
         });
 
       this.showModal = !this.showModal;
-      this.$router.go(this.$router.currentRoute);
     },
     removeAll() {
       const token = window.localStorage.getItem("token");
@@ -166,7 +195,7 @@ export default {
     },
     todayTodo() {
       const token = window.localStorage.getItem("token");
-      axios.get("http://localhost:8090/api/todo/today/1", {
+      axios.get("http://localhost:8090/api/todo/today/4", {
         headers: {
           "Content-Type": "application/json",
           "Authorization": token,

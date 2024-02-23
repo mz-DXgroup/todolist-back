@@ -89,7 +89,13 @@ export default {
   },
   methods: {
     getTodo() {
-      axios.get(`http://localhost:8090/api/todos/${this.id}`).then((res) => {
+      const token = window.localStorage.getItem("token");
+      axios.get(`http://localhost:8090/api/todos/${this.id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token,
+        }
+      }).then((res) => {
         this.todo = res.data; // 객체로 저장
         console.log(this.todo.content);
       });
@@ -102,12 +108,14 @@ export default {
       const test = this.todo.content[index];
       const file = event.target.files[0];
       const formData = new FormData();
+      const token = window.localStorage.getItem("token");
       formData.append("multipartFile", file);
 
       axios
         .post(`http://localhost:8090/api/file/${test.todoId}`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
+            "Authorization": token,
           },
         })
         .then((response) => {
@@ -125,9 +133,15 @@ export default {
     },
     saveTodoEdit(index) {
       const editedTodo = this.todo.content[index];
+      const token = window.localStorage.getItem("token");
 
       axios
-        .put(`http://localhost:8090/api/todo/${editedTodo.todoId}`, editedTodo)
+        .put(`http://localhost:8090/api/todo/${editedTodo.todoId}`, editedTodo, {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": token,
+          },
+        })
         .then(() => {
           this.todo.content[index].isTodoEditing = false;
         })
@@ -141,8 +155,13 @@ export default {
     },
     removeTodo(index) {
       const todoToRemove = this.todo.content[index];
+      const token = window.localStorage.getItem("token");
       axios
         .delete(`http://localhost:8090/api/todo`, {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": token,
+          },
           params: { todoId: todoToRemove.todoId },
         })
         .then(() => {
@@ -153,17 +172,29 @@ export default {
         });
     },
     removeTodoAll() {
-      axios.delete(`http://localhost:8090/api/todo/all/${this.id}`).then(() => {
+      const token = window.localStorage.getItem("token");
+      axios.delete(`http://localhost:8090/api/todo/all/${this.id}`, {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token,
+        },
+      }).then(() => {
         console.log(this.id);
       });
     },
     finishTodo(index) {
       const todoToFinish = this.todo.content[index];
+      const token = window.localStorage.getItem("token");
       todoToFinish.isChecked = !todoToFinish.isChecked;
       axios
         .put(
           `http://localhost:8090/api/todo/${todoToFinish.todoId}`,
-          todoToFinish
+          todoToFinish, {
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": token,
+            }
+          }
         )
         .then(() => {
           console.log("완료");
@@ -177,9 +208,14 @@ export default {
       const fileToDownload = todoToDownload.fileResponses[fileIndex];
       const fileId = fileToDownload.fileId;
       const fileName = fileToDownload.fileName;
+      const token = window.localStorage.getItem("token");
 
       axios({
         url: `http://localhost:8090/api/file/download/${fileId}`,
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token,
+        },
         method: "GET",
         responseType: "blob",
       })
@@ -202,9 +238,15 @@ export default {
       const todoToRemoveFile = this.todo.content[todoIndex];
       const fileToRemove = todoToRemoveFile.fileResponses[fileIndex];
       const fileId = fileToRemove.fileId;
+      const token = window.localStorage.getItem("token");
 
       axios
-        .delete(`http://localhost:8090/api/file/download/${fileId}`)
+        .delete(`http://localhost:8090/api/file/download/${fileId}`, {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": token,
+          },
+        })
         .then(() => {
           this.todo.content[todoIndex].fileResponses.splice(fileIndex, 1);
           console.log("파일 삭제 성공");

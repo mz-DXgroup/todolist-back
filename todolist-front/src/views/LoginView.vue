@@ -27,7 +27,6 @@
     </div>
     <div>
       <h2>로그인 페이지</h2>
-      {{ token }}
       <div id="loginForm">
         <form @submit.prevent="fnLogin">
           <p>
@@ -59,6 +58,7 @@ export default {
       join_email: '',
       join_role: '',
       token: '',
+      userId: '',
     }
   },
   methods: {
@@ -85,8 +85,11 @@ export default {
       })
       .then(response => {
         this.token = response.data.jwt;
+        this.userId = response.data.userId;
         alert('로그인 되었습니다.');
         window.localStorage.setItem("token", this.token);
+        window.localStorage.setItem("userId", this.userId);
+        console.log(response.data);
         this.$router.push('/home')
       })
       .catch(error => {

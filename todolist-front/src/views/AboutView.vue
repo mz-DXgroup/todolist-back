@@ -93,8 +93,14 @@ export default {
   },
   methods: {
     getDocumentDetail() {
+      const token = window.localStorage.getItem("token");
       axios
-        .get(`http://localhost:8090/api/documents/${this.id}`)
+        .get(`http://localhost:8090/api/documents/${this.id}`, {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": token,
+          },
+        })
         .then((res) => {
           this.detailInfo = res.data;
           console.log(this.id);
@@ -154,8 +160,15 @@ export default {
         memberId: "1",
       };
 
+      const token = window.localStorage.getItem("token");
+
       axios
-        .put(`http://localhost:8090/api/documents/${this.id}`, updatedData)
+        .put(`http://localhost:8090/api/documents/${this.id}`, updatedData, {
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": token,
+          }
+        })
         .then(() => {
           this.isEditing = false;
           this.getDocumentDetail();
@@ -169,8 +182,13 @@ export default {
     },
     removeDocument(documentId) {
       if (this.detailInfo.isTodoEmpty === false) {
+        const token = window.localStorage.getItem("token");
         axios
           .delete("http://localhost:8090/api/documents", {
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": token,
+            },
             params: { documentId },
           })
           .then(() => {
@@ -217,10 +235,12 @@ export default {
         documentId: this.documentId,
         isChecked: true,
       };
+      const token = window.localStorage.getItem("token");
       axios
         .post("http://localhost:8090/api/todo", data, {
           headers: {
             "Content-Type": "application/json",
+            "Authorization": token,
           },
         })
         .then((response) => {
