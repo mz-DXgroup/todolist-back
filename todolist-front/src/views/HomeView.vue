@@ -2,7 +2,9 @@
   <div>
     <h1 class="display-6 ms-3 mt-2">Document List</h1>
     <button @click="showPopup" class="btn btn-primary mt-3 ms-3">추가</button>
-    <div><button @click="todayTodo" class="btn btn-primary mt-3 ms-3">오늘의 할 일</button></div>
+    <button @click="todayTodo" class="btn btn-primary mt-3 ms-3">
+      오늘의 할 일
+    </button>
     <div v-for="(item, index) in todayData" :key="index">
       <div class="card mt-3 ms-3 me-3">
         <div card-body ms-3>{{ item.todo }}</div>
@@ -43,7 +45,9 @@
         </div>
       </div>
     </div>
-    <button @click="showCheckPopup" class="btn btn-danger ms-3">전체 삭제</button>
+    <button @click="showCheckPopup" class="btn btn-danger ms-3">
+      전체 삭제
+    </button>
     <!-- <button @click="removeTodoAll" class="btn btn-danger me-3 ms-3">Todo 전체 삭제</button> -->
     <FormModal v-if="showCheckModal" @close="showCheckModal = false">
       <template #header>
@@ -81,7 +85,14 @@ export default {
   },
   methods: {
     getDocument() {
-      axios.get("http://localhost:8090/api/documents").then((res) => {
+      const token = window.localStorage.getItem("token");
+      console.log(token);
+      axios.get("http://localhost:8090/api/documents", {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token,
+        },
+      }).then((res) => {
         this.document = res.data; // 객체로 저장
         console.log(this.document.content);
       });
@@ -126,42 +137,47 @@ export default {
         description: this.dDescription,
         memberId: "1",
       };
+      const token = window.localStorage.getItem("token");
       axios
-        .post("http://localhost:8090/api/documents", data, {
+        .post("http://localhost:8090/api/documents", data, { 
           headers: {
             "Content-Type": "application/json",
+            "Authorization": token,
           },
         })
-        .then((response) => {
-          console.log(response, this.period.startDate, this.period.endDate);
+        .then((response) => { 
+          console.log(response);
         });
 
       this.showModal = !this.showModal;
       this.$router.go(this.$router.currentRoute);
     },
     removeAll() {
-      axios
-        .delete("http://localhost:8090/api/documents/all")
-        .then(() => {
-          this.showCheckModal = !this.showCheckModal;
-          this.$router.go(this.$router.currentRoute);
-        });
+      const token = window.localStorage.getItem("token");
+      axios.delete("http://localhost:8090/api/documents/all", {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token,
+        }
+      }).then(() => {
+        this.showCheckModal = !this.showCheckModal;
+        this.$router.go(this.$router.currentRoute);
+      });
     },
-     todayTodo() {
-      axios.get("http://localhost:8090/api/todo/today/1").then((res) => {
+    todayTodo() {
+      const token = window.localStorage.getItem("token");
+      axios.get("http://localhost:8090/api/todo/today/1", {
+        headers: {
+          "Content-Type": "application/json",
+          "Authorization": token,
+        }
+      }).then((res) => {
         this.todayData = res.data;
         console.log("확인", this.todayData);
-      })
+      });
     },
-    // removeTodoAll() {
-    //   axios
-    //     .delete("http://localhost:8090/api/todo/all")
-    //     .then(() => {
-    //       this.$router.go(this.$router.currentRoute);
-    //     });
-    // },
   },
-  
+
   components: {
     FormModal: FormModal,
   },
