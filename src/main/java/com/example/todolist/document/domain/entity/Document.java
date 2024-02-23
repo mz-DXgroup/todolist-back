@@ -43,7 +43,7 @@ public class Document extends AuditingEntity {
     private List<Todo> todos = new ArrayList<>();
 
     @Setter
-    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @ManyToOne( fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 
