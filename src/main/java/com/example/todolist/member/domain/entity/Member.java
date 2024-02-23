@@ -37,8 +37,14 @@ public class Member extends AuditingEntity implements UserDetails {
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, mappedBy = "member")
     private List<Document> documents = new ArrayList<>();
 
-    private Member(Integer memberId) {
-        this.id = memberId;
+    public void add(Document document) {
+        this.documents.add(document);
+        document.setMember(this);
+    }
+
+
+    private Member(String userId) {
+        this.userId = userId;
     }
 
     public Member(String userId, String pw) {
@@ -46,8 +52,8 @@ public class Member extends AuditingEntity implements UserDetails {
         this.pw = pw;
     }
 
-    public static Member fromId(Integer memberId) {
-        return new Member(memberId);
+    public static Member fromId(String userId) {
+        return new Member(userId);
     }
 
     public void create(String name, String email, String userId, String pw, String roles, List<Document> documents) {

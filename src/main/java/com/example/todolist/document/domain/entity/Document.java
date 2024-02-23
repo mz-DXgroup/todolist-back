@@ -30,7 +30,6 @@ public class Document extends AuditingEntity {
     private Period period;
 
     @NotNull
-    @Column(unique = true)
     private String title;
 
     @NotNull
@@ -40,10 +39,11 @@ public class Document extends AuditingEntity {
     private DayStatus dayStatus;
 
     @Setter
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "document",orphanRemoval = true)
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "document", orphanRemoval = true)
     private List<Todo> todos = new ArrayList<>();
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @Setter
+    @ManyToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;
 

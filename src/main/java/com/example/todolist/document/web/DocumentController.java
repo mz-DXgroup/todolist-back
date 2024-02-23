@@ -35,7 +35,7 @@ public class DocumentController {
     }
 
     @GetMapping("/documents/documents/{userId}")
-    public ResponseEntity<Page<DocumentResponse>> getDocuments(@PathVariable Integer userId, @PageableDefault(size = 20, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
+    public ResponseEntity<Page<DocumentResponse>> getDocuments(@PathVariable String userId, @PageableDefault(size = 20, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
         return ResponseEntity.ok(documentService.getDocuments(userId,pageable));
     }
 

@@ -5,5 +5,5 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 public interface DocumentRepositoryCustom {
-    Page<Document> findAllBy(Integer userId, Pageable pageable);
+    Page<Document> findAllBy(String userId, Pageable pageable);
 }

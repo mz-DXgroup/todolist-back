@@ -13,11 +13,11 @@ public record DocumentRequest(
         String title,
         @NotNull
         String description,
-        Integer memberId,
+        String userId,
         DayStatus dayStatus
 ) {
-    public Document toEntity( ){
-        return  new Document(period,title,description, Member.fromId(memberId),dayStatus);
+    public Document toEntity(Member member) {
+        return new Document(period, title, description, member, dayStatus);
     }
 
 }

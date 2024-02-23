@@ -19,15 +19,15 @@ public class DocumentRepositoryImpl implements DocumentRepositoryCustom {
     }
 
     @Override
-    public Page<Document> findAllBy(Integer userId, Pageable pageable) {
+    public Page<Document> findAllBy(String userId, Pageable pageable) {
 
         List<Document> documents = queryFactory
                 .selectFrom(document)
-                .where(document.member.id.eq(userId))
+                .where(document.member.name.eq(userId))
                 .offset(pageable.getOffset())
                 .limit(pageable.getPageSize())
                 .fetch();
-        Long count = queryFactory.select(document.count()).from(document) .where(document.id.eq(userId)).fetchOne();
+        Long count = queryFactory.select(document.count()).from(document) .where(document.member.name.eq(userId)).fetchOne();
         return new PageImpl<>(documents, pageable, count);
     }
 }
