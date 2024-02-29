@@ -17,6 +17,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
 import java.util.Random;
 
 @RequiredArgsConstructor
@@ -27,28 +28,29 @@ public class FileService {
     private final TodoRepository todoRepository;
 
     @Transactional
-    public void uploadFile(MultipartFile file, Integer todoId) {
-        String originalFileName = file.getOriginalFilename();
-        String newFileName = generateUniqueFileName(originalFileName);
+    public void uploadFiles(List<MultipartFile> files, Integer todoId) {
 
-        // 저장할 파일 경로
-        String uploadDirectory = "C:\\otherGitClone";
-        Path filePath = Paths.get(uploadDirectory, newFileName);
+        for (MultipartFile file : files) {
+            String originalFileName = file.getOriginalFilename();
+            String newFileName = generateUniqueFileName(originalFileName);
 
-        // 파일 정보 저장
-        Todo todo = todoRepository.findById(todoId)
-                .orElseThrow(() -> new EntityNotFoundException("Todo not found with id: " + todoId));
-        FileStore fileStore = new FileStore(newFileName, originalFileName, file.getContentType(), filePath.toString(), todo);
-        fileStoreRepository.save(fileStore);
+            // 저장할 파일 경로
+            String uploadDirectory = "C:\\otherGitClone";
+            Path filePath = Paths.get(uploadDirectory, newFileName);
 
-        // 서버 내부 스토리지에 업로드
-        try {
-            Files.copy(file.getInputStream(), filePath);
-        } catch (IOException e) {
-            throw new IllegalArgumentException("File upload exception. " + e.getStackTrace());
+            // 파일 정보 저장
+            Todo todo = todoRepository.findById(todoId)
+                    .orElseThrow(() -> new EntityNotFoundException("Todo not found with id: " + todoId));
+            FileStore fileStore = new FileStore(newFileName, originalFileName, file.getContentType(), filePath.toString(), todo);
+            fileStoreRepository.save(fileStore);
+
+            // 서버 내부 스토리지에 업로드
+            try {
+                Files.copy(file.getInputStream(), filePath);
+            } catch (IOException e) {
+                throw new IllegalArgumentException("File upload exception. " + e.getStackTrace());
+            }
         }
-
-        //new FileInfoRequest(file.getContentType(), originalFileName, filePath.toString(), Long.toString(file.getSize()));
     }
 
     public FileResponse findFile(Integer todoId) {

@@ -53,7 +53,7 @@ public class LoginService {
         String hashedPassword = passwordEncoder.encode(request.pw());
         Member member = new Member(request.name(), request.email(), request.userId(), hashedPassword, request.role());
         try {
-            Member saveMember = memberRepository.save(member);
+            memberRepository.save(member);
             memberRepository.flush();
         } catch (DataIntegrityViolationException e) {
             throw new CustomException(ExceptionStatus.USERNAME_IS_EXIST);

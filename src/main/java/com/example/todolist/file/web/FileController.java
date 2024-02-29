@@ -16,6 +16,7 @@ import java.net.URLEncoder;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 
 @RequestMapping("/api/file")
@@ -27,12 +28,12 @@ public class FileController {
 
     @PostMapping(value = "{todoId}",
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Integer> addFile(
-            @RequestPart("multipartFile") MultipartFile file,
+    public ResponseEntity<Integer> addFiles(
+            @RequestPart("multipartFiles") List<MultipartFile> files,
             @PathVariable("todoId") Integer todoId) {
-        //Long memberPK = SecurityUtil.getCurrentMemberPk();
-        fileservice.uploadFile(file, todoId);    //서버 내부 스토리지 저장
-        //Long success = fileService.insertFileInfo(fileinfo, memberPK);	//데이터베이스에 파일 정보 저장
+        // Long memberPK = SecurityUtil.getCurrentMemberPk();
+
+        fileservice.uploadFiles(files, todoId);  // 서버 내부 스토리지 저장 및 데이터베이스에 파일 정보 저장
 
         return ResponseEntity.ok(todoId);
     }
