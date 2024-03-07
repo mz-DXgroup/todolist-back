@@ -1,4 +1,3 @@
-
 buildscript {
 	ext {
 		restdocsApiSpecVersion = '0.19.0'
@@ -9,6 +8,7 @@ plugins {
 	id 'org.springframework.boot' version '3.2.0'
 	id 'io.spring.dependency-management' version '1.1.4'
 	id 'com.epages.restdocs-api-spec' version "$restdocsApiSpecVersion"
+	id 'org.asciidoctor.jvm.convert' version '3.3.2'
 }
 
 group = 'com.example'
@@ -22,6 +22,7 @@ configurations {
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
+	asciidoctorExt
 }
 
 repositories {
@@ -38,8 +39,11 @@ dependencies {
 //	runtimeOnly 'com.mysql:mysql-connector-j'
 	annotationProcessor 'org.projectlombok:lombok'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
-	testImplementation 'com.epages:restdocs-api-spec-mockmvc:0.15.3'
 
+	// swagger + restdocs
+	testImplementation "com.epages:restdocs-api-spec-mockmvc:$restdocsApiSpecVersion"
+	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
+	asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 
 	implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
 
@@ -56,13 +60,21 @@ dependencies {
 	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
 }
 
-
-
-
-repositories {
-	mavenCentral()
+// asciidoctor 작업 구성
+asciidoctor {
+	dependsOn test
+	configurations 'asciidoctorExt'
+	baseDirFollowsSourceFile()
 }
 
+// rest docs
+tasks.register('generateResDocs', Copy) {
+	dependsOn asciidoctor
+
+	delete file('src/main/resources/static/restdocs')
+	from("$buildDir/docs/asciidoc")
+	into('src/main/resources/static/restdocs')
+}
 
 openapi3 {
 	servers = [
@@ -76,15 +88,16 @@ openapi3 {
 	version = "0.1.0"
 	format = "yaml" // or json
 }
+
 tasks.register('generateOasToSwagger', Copy) {
 	dependsOn("openapi3")
 	from("$buildDir/api-spec/openapi3.yaml")
 	into("src/main/resources/static/swagger")
 }
 
-//tasks.named('test') {
-//	useJUnitPlatform()
-//}
+tasks.named('test') {
+	useJUnitPlatform()
+}
 
 def querydslDir = "src/main/generated"
 
