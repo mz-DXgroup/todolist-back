@@ -1,12 +1,10 @@
 package com.example.todolist.document.web;
 
 import com.example.todolist.document.application.DocumentService;
-import com.example.todolist.document.application.TodoService;
 import com.example.todolist.document.application.dto.request.DocumentRequest;
 import com.example.todolist.document.application.dto.request.DocumentUpdateRequest;
 import com.example.todolist.document.application.dto.response.DocumentDetailResponse;
 import com.example.todolist.document.application.dto.response.DocumentResponse;
-import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -21,11 +19,9 @@ import java.net.URI;
 @RestController
 public class DocumentController {
     private final DocumentService documentService;
-    private final TodoService todoService;
 
-    public DocumentController(DocumentService documentService, TodoService service) {
+    public DocumentController(DocumentService documentService) {
         this.documentService = documentService;
-        this.todoService = service;
     }
 
     @PostMapping("/documents")
