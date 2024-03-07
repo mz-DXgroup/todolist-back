@@ -1,0 +1,5 @@
+[[document]]
+
+== Document 등록
+
+operation::document-controller-test/create-document[]

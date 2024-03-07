@@ -1,0 +1,15 @@
+// 전체 코드를 연결해 줄 홈 화면
+= Rest Docs Test
+:doctype: book
+:source-highlighter: highlightjs
+:toc: left
+:toclevels: 2
+:sectlinks:
+
+= **document**
+
+include::document.adoc[]
+
+= **member**
+
+include::member.adoc[]
