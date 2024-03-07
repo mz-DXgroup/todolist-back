@@ -31,6 +31,7 @@ spring:
       naming:
         physical-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
     show-sql: true  # Hibernate가 생성하는 SQL을 로그로 출력
+    database-platform : org.hibernate.dialect.H2Dialect
 
 
   mvc:
