@@ -1,5 +1,6 @@
 package com.example.todolist.member.web;
 
+import com.epages.restdocs.apispec.Schema;
 import com.example.todolist.common.config.AbstractRestDocsTests;
 import com.example.todolist.member.application.LoginService;
 import com.example.todolist.member.application.request.MemberJoinRequest;
@@ -18,8 +19,7 @@ import org.springframework.http.MediaType;
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.*;
 import static org.mockito.Mockito.verify;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
+import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -53,7 +53,8 @@ class MemberLoginControllerTest extends AbstractRestDocsTests {
                         resourceDetails()
                                 .summary("회원등록")
                                 .description("회원등록")
-                                .tag("회원"),
+                                .tag("회원")
+                                .requestSchema(Schema.schema("MemberJoinRequest")),
                         requestFields(
                                 fieldWithPath("name").description("이름"),
                                 fieldWithPath("email").description("이메일"),
@@ -86,10 +87,17 @@ class MemberLoginControllerTest extends AbstractRestDocsTests {
                         resourceDetails()
                                 .summary("로그인")
                                 .description("로그인")
-                                .tag("회원"),
+                                .tag("회원")
+                                .requestSchema(Schema.schema("MemberLoginRequest"))
+                                .responseSchema(Schema.schema("MemberLoginResponse")),
                         requestFields(
                                 fieldWithPath("userId").description("사용자아이디"),
                                 fieldWithPath("pw").description("비밀번호")
+                        ),
+                        responseFields(
+                                fieldWithPath("userId").description("사용자아이디"),
+                                fieldWithPath("roles").description("역할"),
+                                fieldWithPath("jwt").description("access token(토큰)")
                         )
                 ));
 
