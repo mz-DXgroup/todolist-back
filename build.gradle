@@ -91,6 +91,23 @@ openapi3 {
 
 tasks.register('generateOasToSwagger', Copy) {
 	dependsOn("openapi3")
+
+	doFirst {
+		def swaggerFile = file("$buildDir/api-spec/openapi3.yaml")
+
+		// jwt 인증을 위한 security 헤더 설정
+		def securitySchemesContent =  "  securitySchemes:\n" + \
+ 									  "   Jwt:\n" +  \
+                                      "     type: apiKey\n" +  \
+                                      "     name: Authorization\n" +  \
+                                      "     in: header\n" + \
+                                      "security:\n" +
+									  " - Jwt: []  # Apply the security scheme here"
+
+		// openapi3.yaml 파일에 위 설정 추가
+		swaggerFile.append securitySchemesContent
+	}
+
 	from("$buildDir/api-spec/openapi3.yaml")
 	into("src/main/resources/static/swagger")
 }
