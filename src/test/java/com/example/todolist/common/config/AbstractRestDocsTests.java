@@ -2,6 +2,8 @@ package com.example.todolist.common.config;
 
 import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper;
 import com.epages.restdocs.apispec.ResourceSnippetDetails;
+import com.example.todolist.common.domain.CodeEnum;
+import com.example.todolist.document.domain.status.DayStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,13 +12,18 @@ import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
 import org.springframework.restdocs.operation.preprocess.Preprocessors;
+import org.springframework.restdocs.snippet.Attributes;
 import org.springframework.restdocs.snippet.Snippet;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
+import java.util.EnumSet;
+import java.util.stream.Collectors;
+
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 @Import(TestSecurityConfig.class)    // 테스트 실행 시 RestDocsConfiguration.class 의 구성을 불러옴, TestSecurityConfig.class JWT 인증과정을 무시하기 위해 사용
@@ -26,6 +33,14 @@ public abstract class AbstractRestDocsTests {
 
     @Autowired
     protected MockMvc mockMvc;
+
+    protected static <T extends Enum<T> & CodeEnum> Attributes.Attribute constraintsAttribute(Class<T> enumClass) {
+        String text = EnumSet.allOf(enumClass)
+                .stream()
+                .map(it -> String.format("%s: %s", it.getCode(), it.getDescription()))
+                .collect(Collectors.joining("\n\n"));
+        return key("constraints").value(text);
+    }
 
     @BeforeEach // Junit5 에서 사용 | 테스트메서드가 실행되기 전에 실행해야 될 메서드를 지정하는데 사용됨 (예: 테스트 조건을 설정하는 용도 등..)
     public void setUp(WebApplicationContext context, RestDocumentationContextProvider restDocumentation) {
