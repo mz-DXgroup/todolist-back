@@ -3,7 +3,6 @@ package com.example.todolist.common.config;
 import com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper;
 import com.epages.restdocs.apispec.ResourceSnippetDetails;
 import com.example.todolist.common.domain.CodeEnum;
-import com.example.todolist.document.domain.status.DayStatus;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,6 +11,10 @@ import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.RestDocumentationExtension;
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
 import org.springframework.restdocs.operation.preprocess.Preprocessors;
+import org.springframework.restdocs.payload.FieldDescriptor;
+import org.springframework.restdocs.payload.ResponseFieldsSnippet;
+import org.springframework.restdocs.request.ParameterDescriptor;
+import org.springframework.restdocs.request.QueryParametersSnippet;
 import org.springframework.restdocs.snippet.Attributes;
 import org.springframework.restdocs.snippet.Snippet;
 import org.springframework.test.web.servlet.MockMvc;
@@ -19,10 +22,17 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
+import java.util.Arrays;
 import java.util.EnumSet;
+import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.documentationConfiguration;
+import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
+import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.queryParameters;
 import static org.springframework.restdocs.snippet.Attributes.key;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
@@ -31,8 +41,48 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 public abstract class AbstractRestDocsTests {
     // RestDocs 에 대한 설정을 모든 테스트 클래스에 적지 않기 위해 abstract 클래스로 만들어 각 테스트들이 상속받아 사용 가능하도록 생성
 
+    // 목록 조회 시 기본 페이지 쿼리 파라미터
+    private static final List<ParameterDescriptor> PAGE_PARAMS = List.of(
+            parameterWithName("page").description("요청 페이지 번호\n\n기본값: 0").optional(),
+            parameterWithName("size").description("한 페이지 당 조회할 크기\n\n기본값: 20").optional(),
+            parameterWithName("sort").description("정렬 기준").optional()
+    );
+
+    // 목록 조회시 페이지 관련 응답
+    private static final List<FieldDescriptor> PAGE_FIELDS = List.of(
+            fieldWithPath("pageable.pageNumber").description("패이지 번호(0번 부터 시작)"),
+            fieldWithPath("pageable.pageSize").description("한 페이지에서의 데이터 수(게시글 수)"),
+            fieldWithPath("pageable.sort.empty").description("요청 정렬 여부"),
+            fieldWithPath("pageable.sort.sorted").description("요청 정렬 여부"),
+            fieldWithPath("pageable.sort.unsorted").description("요청 정렬 여부"),
+            fieldWithPath("pageable.offset").description("해당 페이지에 첫 번째 데이터 번호"),
+            fieldWithPath("pageable.paged").description("페이징 여부"),
+            fieldWithPath("pageable.unpaged").description("페이징 여부"),
+            fieldWithPath("totalPages").description("전체 페이지 수"),
+            fieldWithPath("totalElements").description("전체 데이터 수"),
+            fieldWithPath("last").description("마지막 페이지 여부"),
+            fieldWithPath("size").description("현재 페이지 크기"),
+            fieldWithPath("number").description("현재 페이지 수"),
+            fieldWithPath("sort.empty").description("정렬 여부"),
+            fieldWithPath("sort.sorted").description("정렬 여부"),
+            fieldWithPath("sort.unsorted").description("정렬 여부"),
+            fieldWithPath("numberOfElements").description("현재 페이지이 데이터 수"),
+            fieldWithPath("first").description("첫번쨰 페이지 여부"),
+            fieldWithPath("empty").description("")
+    );
+
     @Autowired
     protected MockMvc mockMvc;
+
+    protected static QueryParametersSnippet commonWithPageRequestParams(ParameterDescriptor... descriptors) {
+        List<ParameterDescriptor> result = Stream.concat(Arrays.stream(descriptors), PAGE_PARAMS.stream()).toList();
+        return queryParameters(result);
+    }
+
+    protected static ResponseFieldsSnippet commonWithPageResponseFields(FieldDescriptor... descriptors) {
+        List<FieldDescriptor> result = Stream.concat(Arrays.stream(descriptors), PAGE_FIELDS.stream()).toList();
+        return responseFields(result);
+    }
 
     protected static <T extends Enum<T> & CodeEnum> Attributes.Attribute constraintsAttribute(Class<T> enumClass) {
         String text = EnumSet.allOf(enumClass)
