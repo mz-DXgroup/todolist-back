@@ -3,3 +3,7 @@
 == Document 등록
 
 operation::document-controller-test/create-document[]
+
+== Document 목록 조회
+
+operation::document-controller-test/get-documents[]

@@ -4,6 +4,7 @@ import com.epages.restdocs.apispec.Schema;
 import com.example.todolist.common.config.AbstractRestDocsTests;
 import com.example.todolist.document.application.DocumentService;
 import com.example.todolist.document.application.dto.request.DocumentRequest;
+import com.example.todolist.document.application.dto.response.DocumentResponse;
 import com.example.todolist.document.domain.entity.Period;
 import com.example.todolist.document.domain.status.DayStatus;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,18 +14,26 @@ import org.mockito.BDDMockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.*;
+import static org.hamcrest.Matchers.hasSize;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.springframework.restdocs.headers.HeaderDocumentation.headerWithName;
 import static org.springframework.restdocs.headers.HeaderDocumentation.responseHeaders;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.*;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @DisplayName("API 문서화 - Document")
@@ -81,5 +90,54 @@ class DocumentControllerTest extends AbstractRestDocsTests {
 
         // verify() : 지정된 메서드가 호출되었는지 검증 => given()에 정의된 동작과 대응함 | time(n) : n번 호출되었는지 확인
         verify(documentService, times(1)).createDocument(request);
+    }
+
+    @DisplayName("사용자 아이디에 해당하는 Document 목록 조회")
+    @Test
+    void getDocuments() throws Exception {
+
+        // given
+        String userId = "yellow";
+
+        List<DocumentResponse> documentListResponse = List.of(
+                new DocumentResponse(1, period, "제목1", "설명1"),
+                new DocumentResponse(2, period, "제목2", "설명2"),
+                new DocumentResponse(3, period, "제목3", "설명3"));
+
+        PageImpl<DocumentResponse> response = new PageImpl<>(documentListResponse, PageRequest.of(0, 20), documentListResponse.size());
+
+        // 인자 중 any()를 사용하면 다른 인자들도 any()|eq()를 사용해야 됨
+        BDDMockito.given(documentService.getDocuments(eq(userId), any())).willReturn(response);
+
+        // when & then
+        mockMvc.perform(get("/api/documents/documents/{userId}", userId))
+                .andExpect(status().isOk())
+                // 결과 검증
+                .andExpect(jsonPath("$.content", hasSize(3)))   // 전체 리스트 사이즈 검증
+                // .andExpect(jsonPath("$.content[2].title").exists())
+                .andExpect(jsonPath("$.content[0].documentId").value(1))
+                .andExpect(jsonPath("$.content[1].title").value("제목2"))
+                .andExpect(jsonPath("$.content[2].description").value("설명3"))
+                .andExpect(jsonPath("$.size").value(20))
+                .andDo(document(
+                        resourceDetails()
+                                .summary("Document 목록 조회")
+                                .description("사용자 아이디에 해당하는 Document 목록 조회")
+                                .tag("Document")
+                                .responseSchema(Schema.schema("DocumentResponse")),
+                        pathParameters(
+                                parameterWithName("userId").description("사용자아이디")
+                        ),
+                        commonWithPageRequestParams(),
+                        commonWithPageResponseFields(
+                                fieldWithPath("content[].documentId").description("document ID"),
+                                fieldWithPath("content[].period.startDate").description("시작일"),
+                                fieldWithPath("content[].period.endDate").description("종료일"),
+                                fieldWithPath("content[].title").description("document 제목"),
+                                fieldWithPath("content[].description").description("document 설명")
+                        )
+                ));
+
+        verify(documentService, times(1)).getDocuments(any(), any());
     }
 }
