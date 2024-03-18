@@ -2,6 +2,7 @@ package com.example.todolist.member.web;
 
 import com.epages.restdocs.apispec.Schema;
 import com.example.todolist.common.config.AbstractRestDocsTests;
+import com.example.todolist.member.MemberFixture;
 import com.example.todolist.member.application.LoginService;
 import com.example.todolist.member.application.request.MemberJoinRequest;
 import com.example.todolist.member.application.request.MemberLoginRequest;
@@ -16,7 +17,8 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.jpa.mapping.JpaMetamodelMappingContext;
 import org.springframework.http.MediaType;
 
-import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.*;
+import static com.epages.restdocs.apispec.MockMvcRestDocumentationWrapper.resourceDetails;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.*;
@@ -38,7 +40,7 @@ class MemberLoginControllerTest extends AbstractRestDocsTests {
     @Test
     void join() throws Exception {
         // given
-        MemberJoinRequest request = new MemberJoinRequest("홍길동", "test@test.com", "yellow", "password", "ADMIN");
+        MemberJoinRequest request = MemberFixture.nonExistJoinMember;
 
         BDDMockito.given(loginService.join(request)).willReturn(null);
 
@@ -63,12 +65,14 @@ class MemberLoginControllerTest extends AbstractRestDocsTests {
                                 fieldWithPath("role").description("역할")
                         )
                 ));
+
+        verify(loginService, times(1)).join(request);
     }
 
     @DisplayName("회원 로그인")
     @Test
     void login() throws Exception {
-        MemberLoginRequest request = new MemberLoginRequest("test", "string");
+        MemberLoginRequest request = MemberFixture.existLoginMember;
         MemberLoginResponse response = new MemberLoginResponse("test", "string", "토큰발급");
 
         BDDMockito.given(loginService.login(request)).willReturn(response);
@@ -101,6 +105,6 @@ class MemberLoginControllerTest extends AbstractRestDocsTests {
                         )
                 ));
 
-        verify(loginService).login(request);
+        verify(loginService, times(1)).login(request);
     }
 }
