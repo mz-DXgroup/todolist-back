@@ -36,7 +36,7 @@ class DocumentTest {
     DocumentService documentService;
 
     public static final  Period period = new Period(LocalDate.now(), LocalDate.now().plusDays(1)) ;
-    public static final  DocumentRequest documentRequest = new DocumentRequest(period,"1월 10일 할 일","할거 없음 ㅋ", "yellow", DayStatus.VERYGOOD);
+    public static final  DocumentRequest documentRequest = new DocumentRequest(period,"1월 10일 할 일","할거 없음 ㅋ", "test", DayStatus.VERYGOOD);
 
     @DisplayName("문서 생성이 잘 된다")
     @Transactional

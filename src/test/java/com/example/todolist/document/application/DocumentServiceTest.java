@@ -31,14 +31,14 @@ class DocumentServiceTest {
 
         // given
         DocumentRequest request = new DocumentRequest(new Period(LocalDate.now(), LocalDate.now()),
-                "제목1", "설명1", "yellow", DayStatus.VERYGOOD);
+                "제목1", "설명1", "test", DayStatus.VERYGOOD);
 
         // when
         Member member = memberRepository.findByUserId(request.userId()).orElseThrow();  // 없는 경우 NoSuchElementException 발생 (오류처리 필요)
         // Member member1 = memberRepository.findByUserId(request.userId()).orElseThrow(() -> new RuntimeException("없음")); // Custom Exception 처리도 가능
 
-        // then (member > id:4 userId:yellow
+        // then (member > id:3 userId:test)
         assertEquals(request.userId(), member.getUserId());
-        assertEquals(4, member.getId());
+        assertEquals(3, member.getId());
     }
 }
