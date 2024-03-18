@@ -23,7 +23,7 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@DisplayName("API 문서화 - Member")
+@DisplayName("API 문서화 - 회원가입&로그인")
 @MockBean(JpaMetamodelMappingContext.class)
 @WebMvcTest(MemberLoginController.class)
 class MemberLoginControllerTest extends AbstractRestDocsTests {
@@ -68,8 +68,8 @@ class MemberLoginControllerTest extends AbstractRestDocsTests {
     @DisplayName("회원 로그인")
     @Test
     void login() throws Exception {
-        MemberLoginRequest request = new MemberLoginRequest("string", "string");
-        MemberLoginResponse response = new MemberLoginResponse("string", "string", "토큰발급");
+        MemberLoginRequest request = new MemberLoginRequest("test", "string");
+        MemberLoginResponse response = new MemberLoginResponse("test", "string", "토큰발급");
 
         BDDMockito.given(loginService.login(request)).willReturn(response);
 
